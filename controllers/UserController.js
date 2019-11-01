@@ -26,7 +26,7 @@ exports.login = (req, res, next) => {
         } else {
             bcrypt.compare(userData.password, user.password, (err, hash) => {
                 if (hash) {
-                    var token = jwt.sign({
+                    let token = jwt.sign({
                         id: user._id,
                         email: user.email
                     }, "SuperSecRetKey", {
@@ -81,9 +81,16 @@ exports.registration = (req, res, next) => {
                     userData.password = hash;
                     Users.create(userData)
                         .then(user => {
+                            let token = jwt.sign({
+                                id: user._id,
+                                email: user.email
+                            }, "SuperSecRetKey", {
+                                    expiresIn: '365d' // expires in 1 year
+                            });
                             res.json({
                                 success: true,
-                                user
+                                user,
+                                token: token
                             })
                             Album.create([
                                 {
