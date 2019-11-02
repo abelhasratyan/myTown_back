@@ -1,6 +1,7 @@
 const Users = require('../models/UserModel')
 const Album = require('../models/AlbumModel')
 const Valid = require('../helpers/validation')
+const Friends = require('../models/frinedsModel')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -102,6 +103,9 @@ exports.registration = (req, res, next) => {
                                     user: user._id
                                 }
                             ])
+                            Friends.create({
+                                user: user._id
+                            })
                         })
                         .catch(err => {
                             res.json({ error: err, msg: "error" })
@@ -143,7 +147,9 @@ exports.getUser = (req, res, next) => {
                 })
             }
         }).catch(err => {
-            next(new Error(err))
+            next(err)
         })
     }
 }
+
+

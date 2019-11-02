@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../controllers/UserController')
 const Album = require('../controllers/PhotoController')
+const Friend = require('../controllers/friendController')
 const passport = require('passport')
 const upload = require('../middlewares/uploadSingleImage')
 const finds = require('../middlewares/finds')
@@ -30,5 +31,9 @@ router.get('/albums/:id', passport.authenticate('jwt', { session: false }), Albu
 router.post('/photo', passport.authenticate('jwt', { session: false }), upload.single('file'), finds.findAlbum, Album.addPhoto)
 router.get('/profilePhotos', passport.authenticate('jwt', { session: false }), Album.getProfilePhotos)
 router.get('/coverPhotos', passport.authenticate('jwt', { session: false }), Album.getCoverPhotos)
+
+// Friens
+
+router.put('/friend/:id', passport.authenticate('jwt', { session: false }), Friend.addFriend)
 
 module.exports = router;
