@@ -35,5 +35,6 @@ router.get('/coverPhotos', passport.authenticate('jwt', { session: false }), Alb
 // Friens
 
 router.put('/friend/:id', passport.authenticate('jwt', { session: false }), Friend.addFriend)
+router.get('/friend', passport.authenticate('jwt', { session: false }), Friend.getFriends)
 
 module.exports = router;
