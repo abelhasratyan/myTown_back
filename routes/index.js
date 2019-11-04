@@ -9,29 +9,27 @@ const finds = require('../middlewares/finds')
 
 
 /* GET home page. */
-
-
 router.post('/registration', User.registration)
 console.log("log 1 in index.js");
 router.post('/login', User.login)
 
 // User
-
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
 
-// Album
 
+// Album
 router.post('/album', passport.authenticate('jwt', { session: false }), Album.CreateAlbum)
 router.get('/albums', passport.authenticate('jwt', { session: false }), Album.getAlbums)
 router.get('/albums/user', passport.authenticate('jwt', { session: false }), Album.getUserAlbums)
 router.get('/albums/:id', passport.authenticate('jwt', { session: false }), Album.getAlbums)
 
-// Photo
 
+// Photo
 router.post('/photo', passport.authenticate('jwt', { session: false }), upload.single('file'), finds.findAlbum, Album.addPhoto)
 router.get('/profilePhotos', passport.authenticate('jwt', { session: false }), Album.getProfilePhotos)
 router.get('/coverPhotos', passport.authenticate('jwt', { session: false }), Album.getCoverPhotos)
+
 
 // Friens
 router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
