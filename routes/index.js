@@ -12,6 +12,7 @@ const finds = require('../middlewares/finds')
 
 
 router.post('/registration', User.registration)
+console.log("log 1 in index.js");
 router.post('/login', User.login)
 
 // User

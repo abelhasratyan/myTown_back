@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const FriendsList = async (userId, friendId, next) => {
     await Friend.findOneAndUpdate({user: userId}, {
-        $push: {friend: {user: friendId}}
+        $push: {friends: friendId}
     }, {new: true}).then(data => {
         console.log('data', data)
         if (data) {
@@ -47,13 +47,13 @@ exports.addFriend = (req, res ,next) => {
 }
 
 exports.getFriends = (req, res, next) => {
-    Friend.findOne({user: req.user.id}).populate('friend.user')
-    .then(friends => {
-        if (friends) {
-            console.log('friends => ', friends)
+    Friend.findOne({user: req.user.id}).populate('friends')
+    .then(result => {
+        if (result) {
+            console.log('friends => ', result)
             res.json({
                 success: true,
-                friends: friends.friend
+                friends: result
             })
         }
     })

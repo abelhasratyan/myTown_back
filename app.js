@@ -11,6 +11,8 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
+console.log("log 1 in app.js");
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

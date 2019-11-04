@@ -12,12 +12,10 @@ const friendsSchema = new Schema({
     ref: 'users',
     required: true
   },
-  friend: [{
-      user: {
-        type: String,
-        ref: 'users',
-        required: true
-      }
+  friends: [{
+    type: String,
+    ref: 'users',
+    required: true
   }]
 })
 
