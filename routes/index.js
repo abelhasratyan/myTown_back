@@ -33,8 +33,7 @@ router.get('/profilePhotos', passport.authenticate('jwt', { session: false }), A
 router.get('/coverPhotos', passport.authenticate('jwt', { session: false }), Album.getCoverPhotos)
 
 // Friens
-
-router.put('/friend/:id', passport.authenticate('jwt', { session: false }), Friend.addFriend)
+router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
 router.get('/friend', passport.authenticate('jwt', { session: false }), Friend.getFriends)
 
 module.exports = router;

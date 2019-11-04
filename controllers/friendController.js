@@ -22,13 +22,17 @@ const FriendsList = async (userId, friendId, next) => {
 }
 
 exports.addFriend = (req, res ,next) => {
-    // console.log('body', req.user)
-    // console.log('id', req.params.id)
-    let counter = 0;
-    if (FriendsList(req.user._id, req.params.id, next)) {
+    let currentUser = req.body.currentUser
+    let askToFriend = req.body.askToFriend
+    let counter = 0
+    
+    // console.log('currentUser =>', currentUser)
+    // console.log('askToFriend =>', askToFriend)
+
+    if (FriendsList(currentUser, askToFriend, next)) {
         counter += 1;
     }
-    if (FriendsList(req.params.id, req.user._id, next)) {
+    if (FriendsList(askToFriend, currentUser, next)) {
         counter += 1;
     }
     if (counter === 2) {
