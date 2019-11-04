@@ -13,11 +13,11 @@ const friendsSchema = new Schema({
     required: true
   },
   friend: [{
-      user: {
-        type: String,
-        ref: 'users',
-        required: true
-      }
+    user: {
+      type: String,
+      ref: 'users',
+      required: true
+    }
   }]
 })
 

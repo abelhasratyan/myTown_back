@@ -13,7 +13,7 @@ exports.login = (req, res, next) => {
     }
     
     Users.findOne({
-        email: req.body.email
+        email: email
     }).then(user => {
         if (user.role === 'ADMIN') {
             res.json({

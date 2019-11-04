@@ -53,7 +53,7 @@ exports.getFriends = (req, res, next) => {
             console.log('friends => ', friends)
             res.json({
                 success: true,
-                friends: friends.friend
+                friends: friends
             })
         }
     })
