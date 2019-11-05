@@ -12,6 +12,7 @@ const friendsSchema = new Schema({
     ref: 'users',
     required: true
   },
+  
   friends: [{
     type: String,
     ref: 'users',

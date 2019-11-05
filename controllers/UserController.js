@@ -5,8 +5,6 @@ const Friends = require('../models/frinedsModel')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-console.log("log 1 in login.js");
-
 exports.login = (req, res, next) => {
     const email = req.body.email.trim()
     const userData = {

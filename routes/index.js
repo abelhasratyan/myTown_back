@@ -10,7 +10,6 @@ const finds = require('../middlewares/finds')
 
 /* GET home page. */
 router.post('/registration', User.registration)
-console.log("log 1 in index.js");
 router.post('/login', User.login)
 
 // User
@@ -32,7 +31,8 @@ router.get('/coverPhotos', passport.authenticate('jwt', { session: false }), Alb
 
 
 // Friens
-router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
 router.get('/friend', passport.authenticate('jwt', { session: false }), Friend.getFriends)
+router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
+router.delete('/friend', passport.authenticate('jwt', { session: false }), Friend.deleteFriend)
 
 module.exports = router;
