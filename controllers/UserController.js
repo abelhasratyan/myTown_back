@@ -152,4 +152,27 @@ exports.getUser = (req, res, next) => {
     }
 }
 
+exports.forget = (req, res, next) => {
+    const emailFromReq = req.body.email;
+    Users.findOne({email: emailFromReq})
+    .then(result => {
+        if (result) {
+            res.json({
+                success: true
+            })
+        } else {
+            res.json({
+                success: false
+            })
+        }
+    })
+    .catch(err => {
+        console.log('err => ', err)
+        const error = new Error(err)
+        error.message = "Can't fine user with this email"
+        error.success = false
+        next(error) 
+    })
+}
+
 
