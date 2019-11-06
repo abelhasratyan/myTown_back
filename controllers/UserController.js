@@ -2,8 +2,9 @@ const Users = require('../models/UserModel')
 const Album = require('../models/AlbumModel')
 const Valid = require('../helpers/validation')
 const Friends = require('../models/frinedsModel')
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const Random = require('../constants/Ranodm')
 
 exports.login = (req, res, next) => {
     const email = req.body.email.trim()
@@ -157,6 +158,8 @@ exports.forget = (req, res, next) => {
     Users.findOne({email: emailFromReq})
     .then(result => {
         if (result) {
+            Random.RandNumber = Math.floor(100000 + Math.random() * 900000)
+            console.log('RandNumber +|_+_+_+_+_+ =>', Random.RandNumber)
             res.json({
                 success: true
             })
@@ -173,6 +176,16 @@ exports.forget = (req, res, next) => {
         error.success = false
         next(error) 
     })
+}
+
+exports.checkNumber = (req, res, next) => {
+    const value = req.body.value;
+    const mailOptions = {
+        from: `<${process.env.ADMIN_EMAIL}`, // sender address
+        to: `${}`, // list of receivers
+        subject: 'Subject of your email', // Subject line
+        html: '<p>Your html here</p>'// plain text body
+      };
 }
 
 

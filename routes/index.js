@@ -36,6 +36,7 @@ router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.
 router.delete('/friend', passport.authenticate('jwt', { session: false }), Friend.deleteFriend)
 
 //Forgot Password
-router.post('/forget', User.forget)
+router.post('/validateuser', User.forget)
+router.get('/forget', User.checkNumber)
 
 module.exports = router;
