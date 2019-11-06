@@ -94,7 +94,7 @@ exports.getFriends = (req, res, next) => {
             console.log('friends => ', result)
             res.json({
                 success: true,
-                result
+                friends: result
             })
         }
     })
@@ -104,8 +104,8 @@ exports.getFriends = (req, res, next) => {
 }
 
 exports.deleteFriend = (req, res, next) => {
-    let currentUser = req.body.currentUser
-    let deleteFriend = req.body.deleteFriend
+    let currentUser = req.body.currentUserId
+    let deleteFriend = req.body.deleteFriendId
     let counter = 0;
 
     if (currentUser === deleteFriend) {

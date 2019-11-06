@@ -35,4 +35,7 @@ router.get('/friend', passport.authenticate('jwt', { session: false }), Friend.g
 router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
 router.delete('/friend', passport.authenticate('jwt', { session: false }), Friend.deleteFriend)
 
+//Forgot Password
+// router.get('fxorgot')
+
 module.exports = router;
