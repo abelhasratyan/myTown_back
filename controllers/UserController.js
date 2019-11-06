@@ -5,6 +5,7 @@ const Friends = require('../models/frinedsModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Random = require('../constants/Ranodm')
+const transporter = require('../lib/mailer').transporter
 
 exports.login = (req, res, next) => {
     const email = req.body.email.trim()
@@ -153,16 +154,32 @@ exports.getUser = (req, res, next) => {
     }
 }
 
-exports.forget = (req, res, next) => {
+exports.validateUser = (req, res, next) => {
     const emailFromReq = req.body.email;
     Users.findOne({email: emailFromReq})
     .then(result => {
         if (result) {
             Random.RandNumber = Math.floor(100000 + Math.random() * 900000)
-            console.log('RandNumber +|_+_+_+_+_+ =>', Random.RandNumber)
-            res.json({
-                success: true
+            const mailOptions = {
+                from: `<${process.env.ADMIN_EMAIL}`, // sender address
+                to: `${emailFromReq}`, // list of receivers
+                subject: 'Hello', // Subject line
+                html: `please enter this number in input field: <strong>${Random.RandNumber}</strong>`// plain text body
+            };
+        
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    res.status(400).json({
+                        success: false,
+                    })
+                } else {
+                    res.status(200).json({
+                        success: true,
+                    });
+                }
+                transporter.close()
             })
+            console.log('RandNumber +|_+_+_+_+_+ =>', Random.RandNumber)
         } else {
             res.json({
                 success: false
@@ -178,14 +195,11 @@ exports.forget = (req, res, next) => {
     })
 }
 
-exports.checkNumber = (req, res, next) => {
-    const value = req.body.value;
-    const mailOptions = {
-        from: `<${process.env.ADMIN_EMAIL}`, // sender address
-        to: `${}`, // list of receivers
-        subject: 'Subject of your email', // Subject line
-        html: '<p>Your html here</p>'// plain text body
-      };
+
+
+exports.validateNumber = (req, res, next) => {
+    const value = req.body.value
+    console.log('type of value =>>> ', typeof(value));
 }
 
 
