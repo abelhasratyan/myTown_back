@@ -128,6 +128,25 @@ exports.registration = (req, res, next) => {
     })
 }
 
+exports.updateUserPassword = (req, res, next) => {
+    const newPassword = req.body.password.trim()
+    const confirmPassword = req.body.c_password
+    const email = req.body.email
+    Users.findOneAndUpdate({email: email})
+    .then(user => {
+        if (user) {
+            console.log('before user+_+_+_+_+_+ => ', user)
+            user.password = newPassword
+            console.log('after change user+_+_+_+_+ => ', user)
+            res.json({
+                user
+            })
+        }
+    }).catch(err => {
+        next(err)
+    })
+} 
+
 exports.getUser = (req, res, next) => {
     if (!req.params.id) {
         Users.findOne({_id: req.user._id}).then(user => {
@@ -204,10 +223,25 @@ exports.validateUser = (req, res, next) => {
     })
 }
 
-
-
 exports.validateNumber = (req, res, next) => {
     const value = req.body.value
+    const generateNumber = toString(Random.RandNumber)
+    console.log('+_+_+_+_+_+', typeof(generateNumber))
+    if(value.length !== 6 ) {
+        res.json({
+            success: false
+        })
+    } else {
+        if (value !== generateNumber) {
+            res.json({
+                success: false
+            })
+        } else {
+            res.json({
+                success: true
+            })
+        }
+    }
     console.log('type of value =>>> ', typeof(value));
 }
 

@@ -15,6 +15,7 @@ router.post('/login', User.login)
 // User
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
+router.put('/chnagepassword', User.updateUserPassword)
 
 
 // Album
