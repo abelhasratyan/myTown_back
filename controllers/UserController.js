@@ -4,7 +4,7 @@ const Valid = require('../helpers/validation')
 const Friends = require('../models/frinedsModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Random = require('../constants/Ranodm')
+const helper = require('../constants/helper')
 const transporter = require('../lib/mailer').transporter
 
 exports.login = (req, res, next) => {
@@ -129,18 +129,27 @@ exports.registration = (req, res, next) => {
 }
 
 exports.updateUserPassword = (req, res, next) => {
-    const newPassword = req.body.password.trim()
+    const newPassword = req.body.password
     const confirmPassword = req.body.c_password
-    const email = req.body.email
+    const email = helper.userEmail
+    console.log('pass', newPassword)
+    console.log('c_pass', confirmPassword)
+    console.log('email', email)
+
+
     Users.findOneAndUpdate({email: email})
     .then(user => {
         if (user) {
-            console.log('before user+_+_+_+_+_+ => ', user)
-            user.password = newPassword
-            console.log('after change user+_+_+_+_+ => ', user)
-            res.json({
-                user
-            })
+            if (newPassword == confirmPassword) {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    
+                })
+            } else {
+                res.json({
+                    success: false
+                })
+            }
+            
         }
     }).catch(err => {
         next(err)
