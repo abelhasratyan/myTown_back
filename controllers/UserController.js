@@ -228,23 +228,24 @@ exports.validateNumber = (req, res, next) => {
     const generateNumber = Random.RandNumber
     console.log('generate Number => |+|+|+|+|', generateNumber)
     console.log('+_+_+_+_+_+', typeof(generateNumber))
+    console.log('value of value =>>> ', value);
     console.log('type of value =>>> ', typeof(value));
 
-    // if(value.length !== 6 ) {
-    //     res.json({
-    //         success: false
-    //     })
-    // } else {
-    //     if (value !== generateNumber) {
-    //         res.json({
-    //             success: false
-    //         })
-    //     } else {
-    //         res.json({
-    //             success: true
-    //         })
-    //     }
-    // }
+    if(value.length !== 6 ) {
+        res.json({
+            success: false
+        })
+    } else {
+        if (Number(value) != Number(generateNumber)) {
+            res.json({
+                success: false
+            })
+        } else {
+            res.json({
+                success: true
+            })
+        }
+    }
 }
 
 
