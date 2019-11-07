@@ -131,27 +131,47 @@ exports.registration = (req, res, next) => {
 exports.updateUserPassword = (req, res, next) => {
     const newPassword = req.body.password
     const confirmPassword = req.body.c_password
-    const email = helper.userEmail
+    const userEmail = helper.userEmail
     console.log('pass', newPassword)
     console.log('c_pass', confirmPassword)
     console.log('email', email)
 
-
-    Users.findOneAndUpdate({email: email})
+    console.log('log in update password 1')
+    Users.findOneAndUpdate({ email: userEmail })
     .then(user => {
         if (user) {
+            console.log('log in update password 2')
             if (newPassword == confirmPassword) {
+                console.log('log in update password 3')
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    
+                   user.password = hash
+                   user.save(err => {
+                       next(err)
+                   })
+                   console.log('log in update password 4')
+                   let token = jwt.sign({
+                    id: user._id,
+                    email: user.email
+                }, "SuperSecRetKey", {
+                        expiresIn: '365d' // expires in 1 year
+                });
+                console.log('log in update password 5')
+                res.json({
+                    success: true,
+                    user,
+                    token: token
+                })
+                res.end()
                 })
             } else {
+                console.log('log in update password 6')
                 res.json({
                     success: false
                 })
             }
-            
         }
     }).catch(err => {
+        console.log('log in update password 7')
         next(err)
     })
 } 
@@ -184,46 +204,36 @@ exports.getUser = (req, res, next) => {
 
 exports.validateUser = (req, res, next) => {
     const emailFromReq = req.body.email;
-    console.log('log in userComponent 1')
+    
     Users.findOne({email: emailFromReq})
     .then(result => {
-        console.log('log in userComponent 2')
         if (result) {
-            console.log('log in userComponent 3')
-            Random.RandNumber = Math.floor(100000 + Math.random() * 900000)
+            helper.RandNumber = Math.floor(100000 + Math.random() * 900000)
             const mailOptions = {
                 from: `<${process.env.ADMIN_EMAIL}`, // sender address
                 to: `${emailFromReq}`, // list of receivers
                 subject: 'Hello', // Subject line
-                html: `please enter this number in input field: <strong>${Random.RandNumber}</strong>`// plain text body
+                html: `please enter this number in input field: <strong>${helper.RandNumber}</strong>`// plain text body
             };
-            console.log('log in userComponent 4')
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    console.log("+_+_+_+_+_+error in if block => ", error)
-                    console.log('log in userComponent 5')
                     res.status(400).json({
                         success: false,
                     })
                 } else {
-                    console.log('log in userComponent 6')
                     res.status(200).json({
                         success: true,
                     });
                 }
                 transporter.close()
-                console.log('log in userComponent 7')
             })
-            console.log('RandNumber111111111 +|_+_+_+_+_+ =>', Random.RandNumber)
         } else {
-            console.log('log in userComponent 8')
             res.json({
                 success: false
             })
         }
     })
     .catch(err => {
-        console.log('log in userComponent 9')
         console.log('err => ', err)
         const error = new Error(err)
         error.message = "Can't fine user with this email"
@@ -234,7 +244,7 @@ exports.validateUser = (req, res, next) => {
 
 exports.validateNumber = (req, res, next) => {
     const value = req.body.value
-    const generateNumber = Random.RandNumber
+    const generateNumber = helper.RandNumber
     console.log('generate Number => |+|+|+|+|', generateNumber)
     console.log('+_+_+_+_+_+', typeof(generateNumber))
     console.log('value of value =>>> ', value);

@@ -1,4 +1,4 @@
 module.exports = {
     RandomNumber: 0,
-    userEmail: "test3@gmail.com"
+    userEmail: 'artur.rush97@gmail.com'
 }
