@@ -132,31 +132,23 @@ exports.updateUserPassword = (req, res, next) => {
     const newPassword = req.body.password
     const confirmPassword = req.body.c_password
     const userEmail = helper.userEmail
-    console.log('pass', newPassword)
-    console.log('c_pass', confirmPassword)
-    console.log('email', email)
-
-    console.log('log in update password 1')
-    Users.findOneAndUpdate({ email: userEmail })
+    
+    Users.findOne({ email: userEmail })
     .then(user => {
         if (user) {
-            console.log('log in update password 2')
             if (newPassword == confirmPassword) {
-                console.log('log in update password 3')
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                    user.password = hash
                    user.save(err => {
                        next(err)
                    })
-                   console.log('log in update password 4')
                    let token = jwt.sign({
                     id: user._id,
                     email: user.email
                 }, "SuperSecRetKey", {
                         expiresIn: '365d' // expires in 1 year
                 });
-                console.log('log in update password 5')
-                res.json({
+                return res.status(200).json({
                     success: true,
                     user,
                     token: token
@@ -165,7 +157,7 @@ exports.updateUserPassword = (req, res, next) => {
                 })
             } else {
                 console.log('log in update password 6')
-                res.json({
+                return res.json({
                     success: false
                 })
             }
