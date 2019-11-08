@@ -91,7 +91,6 @@ exports.getFriends = (req, res, next) => {
     Friend.findOne({user: req.user.id}).populate('friends')
     .then(result => {
         if (result) {
-            console.log('friends => ', result)
             res.json({
                 success: true,
                 friends: result

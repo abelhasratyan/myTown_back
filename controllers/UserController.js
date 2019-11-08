@@ -148,22 +148,23 @@ exports.updateUserPassword = (req, res, next) => {
                 }, "SuperSecRetKey", {
                         expiresIn: '365d' // expires in 1 year
                 });
-                return res.status(200).json({
+                helper.userEmail = ''
+                helper.RandNumber = 0
+                
+                res.status(200).json({
                     success: true,
                     user,
                     token: token
                 })
-                res.end()
+                
                 })
             } else {
-                console.log('log in update password 6')
                 return res.json({
                     success: false
                 })
             }
         }
     }).catch(err => {
-        console.log('log in update password 7')
         next(err)
     })
 } 
@@ -237,10 +238,6 @@ exports.validateUser = (req, res, next) => {
 exports.validateNumber = (req, res, next) => {
     const value = req.body.value
     const generateNumber = helper.RandNumber
-    console.log('generate Number => |+|+|+|+|', generateNumber)
-    console.log('+_+_+_+_+_+', typeof(generateNumber))
-    console.log('value of value =>>> ', value);
-    console.log('type of value =>>> ', typeof(value));
 
     if(value.length !== 6 ) {
         res.json({
