@@ -22,7 +22,7 @@ const haveOnFrinedList = async (currentUserId, friendUserId, next) => {
 }
 
 const AddToFriend = async (userId, friendId, next) => {
-    await Friend.findOneAndUpdate({user: userId}, {
+    await Friend.findOneAndUpdate({ user: userId }, {
         $push: {friends: friendId}
     }, {new: true}).then(data => {
         console.log('data', data)

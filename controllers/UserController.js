@@ -2,6 +2,7 @@ const Users = require('../models/UserModel')
 const Album = require('../models/AlbumModel')
 const Valid = require('../helpers/validation')
 const Friends = require('../models/frinedsModel')
+const Posts = require('../models/PostModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const helper = require('../constants/helper')
@@ -108,6 +109,9 @@ exports.registration = (req, res, next) => {
                             Friends.create({
                                 user: user._id
                             })
+                            Posts.create({
+                                userId: user._id
+                            })
                         })
                         .catch(err => {
                             res.json({ error: err, msg: "error" })
@@ -132,7 +136,7 @@ exports.updateUserPassword = (req, res, next) => {
     const newPassword = req.body.password
     const confirmPassword = req.body.c_password
     const userEmail = helper.userEmail
-    
+        
     Users.findOne({ email: userEmail })
     .then(user => {
         if (user) {
