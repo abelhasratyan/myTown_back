@@ -6,6 +6,7 @@ const Friend = require('../controllers/friendController')
 const Post = require('../controllers/PostController')
 const passport = require('passport')
 const upload = require('../middlewares/uploadSingleImage')
+const postImage = require('../middlewares/uploadPostPhoto')
 const finds = require('../middlewares/finds')
 
 
@@ -44,6 +45,9 @@ router.delete('/friend', passport.authenticate('jwt', { session: false }), Frien
 router.post('/user/newpost', passport.authenticate('jwt', { session: false }), Post.addPost)
 router.get('/user/posts/:id', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
+
+// for upload post photo
+router.post('/uploadfile', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.PostPhoto)
 
 
 module.exports = router;
