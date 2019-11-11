@@ -6,6 +6,7 @@ exports.addPost = (req, res, next) => {
         userId: req.body.userId,
         text: req.body.text,
     }
+    console.log("+_+_+_+ =>", postData)
     Post.findOneAndUpdate({ userId: postData.userId }, {
         $push: { posts : postData} 
     }, {new: true})
