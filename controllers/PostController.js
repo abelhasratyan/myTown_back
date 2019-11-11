@@ -15,22 +15,25 @@ exports.PostPhoto = (req, res, next) => {
 }
 
 exports.addPost = (req, res, next) => {
-    console.log('req.body => ', req.user)
+        console.log('req.body => ', req.file)
     const postData = {
         userId: req.body.userId,
         text: req.body.text,
-        link: req.body.filename
+        link: req.file.filename
     }
     console.log("+_+_+_+ =>", postData)
     Post.findOneAndUpdate({ userId: postData.userId }, {
         $push: { posts : postData} 
     }, {new: true})
     .then(result => {
+        console.log("log 1 in then")
         res.json({
+            success: true,
             result
         })
         // console.log('result in post controller =>>', result)
     }).catch(err => {
+        console.log("log 2 in catch")
         next(err)
     })
 }

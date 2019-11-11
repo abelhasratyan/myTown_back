@@ -42,12 +42,12 @@ router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.
 router.delete('/friend', passport.authenticate('jwt', { session: false }), Friend.deleteFriend)
 
 // Posts
-router.post('/user/newpost', passport.authenticate('jwt', { session: false }), Post.addPost)
+router.post('/user/newpost', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.addPost)
 router.get('/user/posts/:id', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
 
 // for upload post photo
-router.post('/uploadfile', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.PostPhoto)
+//router.post('/uploadfile', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.PostPhoto)
 
 
 module.exports = router;
