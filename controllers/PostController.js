@@ -1,4 +1,4 @@
-const Post = require('../models/PostModel')
+const Posts = require('../models/PostModel')
 const User = require('../models/UserModel')
 
 exports.addPost = (req, res, next) => {
@@ -20,9 +20,22 @@ exports.addPost = (req, res, next) => {
 }
 
 exports.getUserPosts = (req, res, next) => {
-    const userid = req.body.userId
-    Post.find({
+    const userid = req.params.id
+    Posts.findOne({
         userId: userid
+    }).then(result => {
+        if (!result) {            
+            res.json({
+                postsList: result.posts
+            })
+        } else {
+            res.json({
+                postsList: result.posts
+            })
+        }
+    })
+    .catch(err => {
+        next(err)
     })
 }
 

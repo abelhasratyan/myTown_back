@@ -10,7 +10,9 @@ const PostSchema = new Schema({
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'users',
-      required: true
+      required: true,
+      index: true
+
     },
     posts: [{
       text: {
@@ -27,4 +29,4 @@ const PostSchema = new Schema({
     }]
   })
   
-  module.exports = Posts = db.model("posts", PostSchema);
+  module.exports = Posts = db.model('posts', PostSchema);
