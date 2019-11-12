@@ -27,19 +27,20 @@ const userSchema = new Schema({
         unique: true,
         required: true,
     },
-    // birthday: {
-    //     type: Date,
-    //     required: true
-    // },
+    birthday: {
+        type: Date,
+        required: true
+    },
     address: {
-        country: {
-          type: String,
-          // required: true,
-        },
-        city: {
-          type: String,
-          // required: true,
-        },
+        // country: {
+        //   type: String,
+        //   // required: true,
+        // },
+        // city: {
+        //   type: String,
+        //   // required: true,
+        // },
+        type: String
     },
     avatar: {
         type: String,
