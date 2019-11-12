@@ -135,7 +135,7 @@ exports.registration = (req, res, next) => {
     })
 }
 
-exports.updateUserPassword = (req, res, next) => {
+exports.userForgotPassword = (req, res, next) => {
     const newPassword = req.body.password
     const confirmPassword = req.body.c_password
     const userEmail = helper.userEmail
@@ -263,4 +263,79 @@ exports.validateNumber = (req, res, next) => {
     }
 }
 
+exports.UpdateUserData = (req, res, next) => {
+    console.log('log 1 in updateUserData')
+    if (req.body.password != req.body.c_password) {
+        console.log('log 2 in updateUserData')
+        res.json({
+            success: false,
+            msg: 'Confirm Password don\'t like Password'
+        })
+    } else {
+        console.log('log 3 in updateUserData')
+        const newUserData = {
+            name: req.body.name,
+            surname: req.body.surname,
+            email: req.body.email,
+            birthday: req.body.birthday,
+            country: req.body.country,
+            city: req.body.city,
+            password: req.body.password
+        } 
+        console.log('NewUserData = >>>>>>', newUserData)
+        bcrypt.hash(newUserData.password, 10, (err, hash) => {
+            if (!hash) {
+                console.log('log 4 in updateUserData')
+                next(err)
+            } else { 
+                console.log('log 5 in updateUserData')
+                newUserData.password = hash
+                console.log('newUserData.password before hashing', newUserData.password)
+                Users.findOneAndUpdate({ _id: req.body.id}, {
+                    $set: {
+                            name: newUserData.name,
+                            surname: newUserData.surname,
+                            email: newUserData.email,
+                            birthday: newUserData.birthday,
+                            country: newUserData.country,
+                            city: newUserData.city,
+                            password: newUserData.password
+                        }
+                }, { new: true })
+                .then(result => {
+                    console.log('log 7 in updateUserData')
+                    if (!result) {
+                        console.log('log 8 in updateUserData')
+                        const error = new Error('cant find user')
+                        error.msg = 'cant find user'
+                        error.status = 404
+                        next(error)
+                    } else {
+                        console.log('log 9 in updateUserData')
+                        console.log('result ->>>>>', result)
+                        let token = jwt.sign({
+                            id: result._id,
+                            email: result.email
+                        }, "SuperSecRetKey", {
+                                expiresIn: '365d' // expires in 1 year
+                        });
+                        console.log('log 10 in updateUserData')
+                        res.json({
+                            success: true,
+                            user: result
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.log('log 11 in updateUserData')
+                    console.log('log in catch err =>>>', err)
+                    next(err);
+                })
+            }
+        })
+        
+    }
+
+
+}
 

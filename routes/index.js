@@ -17,7 +17,8 @@ router.post('/login', User.login)
 // User
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
-router.post('/changepassword', User.updateUserPassword)
+router.post('/changepassword', User.userForgotPassword)
+router.post('/updateuser', passport.authenticate('jwt', { session: false }), User.UpdateUserData)
 
 //Forgot Password
 router.post('/validateuser', User.validateUser)
