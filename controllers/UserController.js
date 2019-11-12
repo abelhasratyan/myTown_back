@@ -71,6 +71,9 @@ exports.registration = (req, res, next) => {
         surname: req.body.surname,
         email: req.body.email,
         password: req.body.password,
+        birthday: req.body.birthday,
+        country: req.body.country,
+        city: req.body.city,
     }
     Users.findOne({
         email: req.body.email

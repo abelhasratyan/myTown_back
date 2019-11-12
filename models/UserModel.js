@@ -31,16 +31,13 @@ const userSchema = new Schema({
         type: Date,
         required: true
     },
-    address: {
-        // country: {
-        //   type: String,
-        //   // required: true,
-        // },
-        // city: {
-        //   type: String,
-        //   // required: true,
-        // },
-        type: String
+    country: {
+        type: String,
+        // required: true,
+    },
+    city: {
+        type: String,
+        // required: true,
     },
     avatar: {
         type: String,
