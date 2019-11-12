@@ -21,14 +21,16 @@ exports.addPost = (req, res, next) => {
         text: req.body.text,
         link: req.file.filename
     }
-    console.log('post Data user id => ', postData.userId)
-    console.log('log in after =>>>', postData)
+    console.log('log postData =>>>', postData)
     console.log('log 2 in add post')
-    Post.findOneAndUpdate({ _id: postData.userId }, {
-        $push: { posts : postData} 
+    Posts.findOneAndUpdate({ userId: postData.userId }, {
+        $push: { posts: postData } 
     }, {new: true})
     .then(result => {
         console.log('log 3 in add post')
+        if (!result) {
+            console.log('case if result is null ')
+        }
         res.json({
             success: true,
             result
@@ -37,6 +39,7 @@ exports.addPost = (req, res, next) => {
         console.log('log 4 in add post')
     }).catch(err => {
         console.log("log 5 in catch")
+        console.log('err =>>>>>', err)
         next(err)
     })
 }
