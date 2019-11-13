@@ -322,7 +322,8 @@ exports.UpdateUserData = (req, res, next) => {
                         console.log('log 10 in updateUserData')
                         res.json({
                             success: true,
-                            user: result
+                            user: result,
+                            token
                         })
                     }
                 })
@@ -333,9 +334,6 @@ exports.UpdateUserData = (req, res, next) => {
                 })
             }
         })
-        
     }
-
-
 }
 

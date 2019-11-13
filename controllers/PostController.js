@@ -20,6 +20,7 @@ exports.addPost = (req, res, next) => {
         text: req.body.text,
         link: req.file.filename
     }
+    console.log('postData =>>>>', postData)
     Posts.findOneAndUpdate({ userId: postData.userId }, {
         $push: { posts: postData } 
     }, {new: true})

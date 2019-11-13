@@ -1,13 +1,16 @@
-const express = require('express');
-const router = express.Router();
 const User = require('../controllers/UserController')
 const Album = require('../controllers/PhotoController')
 const Friend = require('../controllers/friendController')
 const Post = require('../controllers/PostController')
+const Search = require('../controllers/searchController')
+
 const passport = require('passport')
 const upload = require('../middlewares/uploadSingleImage')
 const postImage = require('../middlewares/uploadPostPhoto')
 const finds = require('../middlewares/finds')
+
+const express = require('express');
+const router = express.Router();
 
 
 /* GET home page. */
@@ -17,12 +20,12 @@ router.post('/login', User.login)
 // User
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
-router.post('/changepassword', User.userForgotPassword)
 router.post('/updateuser', passport.authenticate('jwt', { session: false }), User.UpdateUserData)
 
 //Forgot Password
 router.post('/validateuser', User.validateUser)
 router.post('/validatenumber', User.validateNumber)
+router.post('/changepassword', User.userForgotPassword)
 
 // Album
 router.post('/album', passport.authenticate('jwt', { session: false }), Album.CreateAlbum)
@@ -46,6 +49,9 @@ router.delete('/friend', passport.authenticate('jwt', { session: false }), Frien
 router.post('/user/newpost', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.addPost)
 router.get('/user/posts/:id', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
+
+// Search
+router.get('/search', passport.authenticate('jwt', { session: false }), Search.searchUsers)
 
 // for upload post photo
 //router.post('/uploadfile', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.PostPhoto)
