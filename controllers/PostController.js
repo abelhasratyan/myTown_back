@@ -15,10 +15,14 @@ exports.PostPhoto = (req, res, next) => {
 }
 
 exports.addPost = (req, res, next) => {
+    console.log('file =>>>>', req.file)
     const postData = {
         userId: req.body.userId,
         text: req.body.text,
-        link: req.file.filename
+        file: {
+            path: req.file.path,
+            name: req.file.filename
+        }
     }
     console.log('postData =>>>>', postData)
     Posts.findOneAndUpdate({ userId: postData.userId }, {

@@ -21,6 +21,10 @@ const PostSchema = new Schema({
       created: {
         type: Date,
         default: dataFormat
+      },
+      file:{
+        path: String,
+        name: String  
       }
       // to do image
       // to do comment like and share
