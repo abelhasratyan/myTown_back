@@ -72,7 +72,7 @@ exports.getUserAlbums = (req, res, next) => {
 exports.addPhoto = (req, res, next) => {
     const data = {
         name: req.file.filename,
-        link: `/uploads/avatars/${req.file.filename}`,
+        link: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`,
         album: req.body.album,
         user: req.user._id
     }

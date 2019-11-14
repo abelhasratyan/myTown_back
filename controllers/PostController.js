@@ -16,11 +16,12 @@ exports.PostPhoto = (req, res, next) => {
 
 exports.addPost = (req, res, next) => {
     console.log('file =>>>>', req.file)
+    console.log('req.body = >>>>>', req.body)
     const postData = {
         userId: req.body.userId,
         text: req.body.text,
         file: {
-            path: req.file.path,
+            path: `${process.env.SERVER_URL}/uploads/posts/${req.file.filename}`,
             name: req.file.filename
         }
     }

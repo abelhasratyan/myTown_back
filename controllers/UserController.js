@@ -265,13 +265,13 @@ exports.validateNumber = (req, res, next) => {
 
 exports.UpdateUserData = (req, res, next) => {
     console.log('log 1 in updateUserData')
-    if (req.body.password != req.body.c_password) {
-        console.log('log 2 in updateUserData')
-        res.json({
-            success: false,
-            msg: 'Confirm Password don\'t like Password'
-        })
-    } else {
+    // if (req.body.password != req.body.c_password) {
+    //     console.log('log 2 in updateUserData')
+    //     res.json({
+    //         success: false,
+    //         msg: 'Confirm Password don\'t like Password'
+    //     })
+    // } else {
         console.log('log 3 in updateUserData')
         const newUserData = {
             name: req.body.name,
@@ -280,17 +280,17 @@ exports.UpdateUserData = (req, res, next) => {
             birthday: req.body.birthday,
             country: req.body.country,
             city: req.body.city,
-            password: req.body.password
+            // password: req.body.password
         } 
-        console.log('NewUserData = >>>>>>', newUserData)
-        bcrypt.hash(newUserData.password, 10, (err, hash) => {
-            if (!hash) {
-                console.log('log 4 in updateUserData')
-                next(err)
-            } else { 
-                console.log('log 5 in updateUserData')
-                newUserData.password = hash
-                console.log('newUserData.password before hashing', newUserData.password)
+        // console.log('NewUserData = >>>>>>', newUserData)
+        // bcrypt.hash(newUserData.password, 10, (err, hash) => {
+        //     if (!hash) {
+        //         console.log('log 4 in updateUserData')
+        //         next(err)
+        //     } else { 
+        //         console.log('log 5 in updateUserData')
+        //         newUserData.password = hash
+        //         console.log('newUserData.password before hashing', newUserData.password)
                 Users.findOneAndUpdate({ _id: req.body.id}, {
                     $set: {
                             name: newUserData.name,
@@ -299,7 +299,7 @@ exports.UpdateUserData = (req, res, next) => {
                             birthday: newUserData.birthday,
                             country: newUserData.country,
                             city: newUserData.city,
-                            password: newUserData.password
+                            // password: newUserData.password
                         }
                 }, { new: true })
                 .then(result => {
@@ -332,8 +332,8 @@ exports.UpdateUserData = (req, res, next) => {
                     console.log('log in catch err =>>>', err)
                     next(err);
                 })
-            }
-        })
-    }
+            // }
+        // })
+    // }
 }
 
