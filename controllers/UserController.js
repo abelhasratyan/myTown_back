@@ -339,11 +339,19 @@ exports.UpdateUserData = (req, res, next) => {
 
 exports.updateUserProfilePhoto = (req, res, next) => {
     console.log('req.file =>>>', req.file)
-    console.log('req.body =>>>', req.body)
-    Users.findOneAndUpdate({_id: req.body.userId})
-    .then()
-    .catch()
-
-    
+    console.log('req.body =>>>', req.body.userId)
+    Users.findOneAndUpdate({_id: req.body.userId}, {
+        $set: { avatar: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`}
+    }, { new: true})
+    .then(result => {
+        if (!result) {
+            console.log('case if result is null =>', result)
+        } else {
+            console.log('case if result is true =>', result)
+        }
+    })
+    .catch(err => {
+        next(err)
+    })
 }
 
