@@ -1,31 +1,21 @@
 const Posts = require('../models/PostModel')
 const User = require('../models/UserModel')
 
-exports.PostPhoto = (req, res, next) => {
-    const file = req.file
-    if (!file) {
-        let error = new Error()
-        error.msg = "couldn't add friend"
-        next(error)
-    } else {
-        res.json({
-            file: file
-        })
-    }
-}
-
 exports.addPost = (req, res, next) => {
-    console.log('file =>>>>', req.file)
-    console.log('req.body = >>>>>', req.body)
-    const postData = {
-        userId: req.body.userId,
-        text: req.body.text,
-        file: {
+    // console.log('file =>>>>', req.file)
+    // console.log('req.body = >>>>>', req.body)
+    let file  = null;
+    if (req.file) {
+        file = {
             path: `${process.env.SERVER_URL}/uploads/posts/${req.file.filename}`,
             name: req.file.filename
         }
     }
-    console.log('postData =>>>>', postData)
+    const postData = {
+        userId: req.body.userId,
+        text: req.body.text,
+        file: file
+    }
     Posts.findOneAndUpdate({ userId: postData.userId }, {
         $push: { posts: postData } 
     }, {new: true})
@@ -35,9 +25,10 @@ exports.addPost = (req, res, next) => {
                 success: false
             })
         }
+        let length = result.posts.length
         res.json({
             success: true,
-            result
+            result: result.posts.slice(-1)[0]
         })
     }).catch(err => {
         next(err)

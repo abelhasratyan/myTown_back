@@ -17,15 +17,19 @@ const router = express.Router();
 router.post('/registration', User.registration)
 router.post('/login', User.login)
 
+
 // User
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
 router.post('/updateuser', passport.authenticate('jwt', { session: false }), User.UpdateUserData)
+router.post('/user/avatar/update', passport.authenticate('jwt', {session: false}), upload.single('file'), User.updateUserProfilePhoto)
+
 
 //Forgot Password
 router.post('/validateuser', User.validateUser)
 router.post('/validatenumber', User.validateNumber)
 router.post('/changepassword', User.userForgotPassword)
+
 
 // Album
 router.post('/album', passport.authenticate('jwt', { session: false }), Album.CreateAlbum)
@@ -45,16 +49,17 @@ router.get('/friend', passport.authenticate('jwt', { session: false }), Friend.g
 router.post('/friend', passport.authenticate('jwt', { session: false }), Friend.addFriend)
 router.delete('/friend', passport.authenticate('jwt', { session: false }), Friend.deleteFriend)
 
+
 // Posts
 router.post('/user/newpost', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.addPost)
 router.get('/user/posts/:id', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
 
+
 // Search
 router.get('/search', passport.authenticate('jwt', { session: false }), Search.searchUsers)
 
-// for upload post photo
-//router.post('/uploadfile', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.PostPhoto)
+
 
 
 module.exports = router;

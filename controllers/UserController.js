@@ -135,73 +135,6 @@ exports.registration = (req, res, next) => {
     })
 }
 
-exports.userForgotPassword = (req, res, next) => {
-    const newPassword = req.body.password
-    const confirmPassword = req.body.c_password
-    const userEmail = helper.userEmail
-        
-    Users.findOne({ email: userEmail })
-    .then(user => {
-        if (user) {
-            if (newPassword == confirmPassword) {
-                bcrypt.hash(req.body.password, 10, (err, hash) => {
-                   user.password = hash
-                   user.save(err => {
-                       next(err)
-                   })
-                   let token = jwt.sign({
-                    id: user._id,
-                    email: user.email
-                }, "SuperSecRetKey", {
-                        expiresIn: '365d' // expires in 1 year
-                });
-                helper.userEmail = ''
-                helper.RandNumber = 0
-                
-                res.status(200).json({
-                    success: true,
-                    user,
-                    token: token
-                })
-                
-                })
-            } else {
-                return res.json({
-                    success: false
-                })
-            }
-        }
-    }).catch(err => {
-        next(err)
-    })
-} 
-
-exports.getUser = (req, res, next) => {
-    if (!req.params.id) {
-        Users.findOne({_id: req.user._id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(new Error(err))
-        })
-    } else {
-        Users.findOne({_id: req.params.id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(err)
-        })
-    }
-}
-
 exports.validateUser = (req, res, next) => {
     const emailFromReq = req.body.email;
     
@@ -261,6 +194,73 @@ exports.validateNumber = (req, res, next) => {
             })
         }
     }
+}
+
+exports.getUser = (req, res, next) => {
+    if (!req.params.id) {
+        Users.findOne({_id: req.user._id}).then(user => {
+            if (user) {
+                res.json({
+                    user,
+                    success: true
+                })
+            }
+        }).catch(err => {
+            next(new Error(err))
+        })
+    } else {
+        Users.findOne({_id: req.params.id}).then(user => {
+            if (user) {
+                res.json({
+                    user,
+                    success: true
+                })
+            }
+        }).catch(err => {
+            next(err)
+        })
+    }
+}
+
+exports.userForgotPassword = (req, res, next) => {
+    const newPassword = req.body.password
+    const confirmPassword = req.body.c_password
+    const userEmail = helper.userEmail
+        
+    Users.findOne({ email: userEmail })
+    .then(user => {
+        if (user) {
+            if (newPassword == confirmPassword) {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                   user.password = hash
+                   user.save(err => {
+                       next(err)
+                   })
+                   let token = jwt.sign({
+                    id: user._id,
+                    email: user.email
+                }, "SuperSecRetKey", {
+                        expiresIn: '365d' // expires in 1 year
+                });
+                helper.userEmail = ''
+                helper.RandNumber = 0
+                
+                res.status(200).json({
+                    success: true,
+                    user,
+                    token: token
+                })
+                
+                })
+            } else {
+                return res.json({
+                    success: false
+                })
+            }
+        }
+    }).catch(err => {
+        next(err)
+    })
 }
 
 exports.UpdateUserData = (req, res, next) => {
@@ -335,5 +335,15 @@ exports.UpdateUserData = (req, res, next) => {
             // }
         // })
     // }
+}
+
+exports.updateUserProfilePhoto = (req, res, next) => {
+    console.log('req.file =>>>', req.file)
+    console.log('req.body =>>>', req.body)
+    Users.findOneAndUpdate({_id: req.body.userId})
+    .then()
+    .catch()
+
+    
 }
 
