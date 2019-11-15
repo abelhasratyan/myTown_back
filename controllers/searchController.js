@@ -1,10 +1,14 @@
 const User = require('../models/UserModel')
 
 exports.searchUsers = (req, res, next) => {
-    let filterResult = [];
-    let searchingUser = {
-        name: req.body.name,
-        surname: req.body.surname
+    let filterResult = []
+    let query = {}
+    let searchingUser = {}
+    if (req.body.name) {
+        searchingUser.name = req.body.name
+    }
+    if (req.body.username) {
+        searchingUser.surname = req.body.surname
     }
     
     User.find({
