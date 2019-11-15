@@ -2,22 +2,22 @@ const Posts = require('../models/PostModel')
 const User = require('../models/UserModel')
 
 exports.addPost = (req, res, next) => {
-    // console.log('file =>>>>', req.file)
-    // console.log('req.body = >>>>>', req.body)
-    let file  = null;
+    const postData = {
+        userId: req.body.userId,
+        text: req.body.text,
+    };
     if (req.file) {
-        file = {
+        postData.file = {
             path: `${process.env.SERVER_URL}/uploads/posts/${req.file.filename}`,
             name: req.file.filename
         }
     }
-    const postData = {
-        userId: req.body.userId,
-        text: req.body.text,
-        file: file
-    }
     Posts.findOneAndUpdate({ userId: postData.userId }, {
-        $push: { posts: postData } 
+        $push: {
+           posts: {
+                $each: [postData],
+                $position: 0
+        }} 
     }, {new: true})
     .then(result => {
         if (!result) {
@@ -28,24 +28,28 @@ exports.addPost = (req, res, next) => {
         let length = result.posts.length
         res.json({
             success: true,
-            result: result.posts.slice(-1)[0]
+            result: result.posts.slice(0)[0]
         })
     }).catch(err => {
+        console.log(err)
         next(err)
     })
 }
 
 exports.getUserPosts = (req, res, next) => {
     const userid = req.params.id
-    Posts.findOne({
+    Posts.findOne({ 
         userId: userid
     }).then(result => {
+        console.log(result);
         if (!result) {            
             res.json({
-                postsList: result.posts
+                error: true,
+                message: "Posts not found"
             })
         } else {
             res.json({
+                success: true,
                 postsList: result.posts
             })
         }

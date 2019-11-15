@@ -52,7 +52,7 @@ router.delete('/friend', passport.authenticate('jwt', { session: false }), Frien
 
 // Posts
 router.post('/user/newpost', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.addPost)
-router.get('/user/posts/:id', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
+router.get('/user/:id/posts', passport.authenticate('jwt', { session: false }), Post.getUserPosts)
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
 
 
