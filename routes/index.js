@@ -57,7 +57,9 @@ router.get('/user/:id/posts', passport.authenticate('jwt', { session: false }), 
 
 
 // Search
-router.get('/search', passport.authenticate('jwt', { session: false }), Search.searchUsers)
+router.get('/search', Search.searchUsers)
+
+// passport.authenticate('jwt', { session: false })
 
 
 
