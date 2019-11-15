@@ -1,14 +1,18 @@
 const User = require('../models/UserModel')
 
 exports.searchUsers = (req, res, next) => {
+    let str = req.body.searchUser
+    let name = [];
+    name = str.trim().split(" ");
+
+
     let filterResult = []
-    // let query = {}
     let searchingUser = {}
-    if (req.body.name) {
-        searchingUser.name = req.body.name
+    if (name[0]) {
+        searchingUser.name = name[0]
     }
-    if (req.body.username) {
-        searchingUser.surname = req.body.surname
+    if (name[1]) {
+        searchingUser.surname = name[1]
     }
     // {
     //     $and: [{"name": searchingUser.name}, {"surname": searchingUser.surname}]
@@ -24,7 +28,7 @@ exports.searchUsers = (req, res, next) => {
         })
         res.json({
             success: true,
-            result: filterResult 
+            result: filterResult
         })
     }).catch(err => {
         next(err)
