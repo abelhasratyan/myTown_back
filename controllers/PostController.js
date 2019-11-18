@@ -6,7 +6,7 @@ exports.addPost = (req, res, next) => {
         userId: req.body.userId,
         text: req.body.text,
     };
-    console.log("+_+_+_+ req.file =>?", req.file)
+    // console.log("+_+_+_+ req.file =>?", req.file);
     if (req.file) {
         postData.file = {
             path: `${process.env.SERVER_URL}/uploads/posts/${req.file.filename}`,
@@ -37,11 +37,11 @@ exports.addPost = (req, res, next) => {
 }
 
 exports.getUserPosts = (req, res, next) => {
-    const userid = req.params.id
+    const userid = req.params.id;
     Posts.findOne({ 
         userId: userid
     }).then(result => {
-        console.log(result);
+        // console.log(result);
         if (!result) {            
             res.json({
                 error: true,
@@ -57,7 +57,7 @@ exports.getUserPosts = (req, res, next) => {
     .catch(err => {
         next(err)
     })
-}
+};
 
 // exports.addComment = (req, res, next) => {
     

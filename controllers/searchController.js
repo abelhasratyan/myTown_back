@@ -1,24 +1,20 @@
-const User = require('../models/UserModel')
+const User = require('../models/UserModel');
 
 exports.searchUsers = (req, res, next) => {
-    let str = req.body.searchUser
+    let str = req.body.searchUser;
     let name = [];
     name = str.trim().split(" ");
 
 
-    let filterResult = []
-    let searchingUser = {}
+    let filterResult = [];
+    let searchingUser = {};
     if (name[0]) {
         searchingUser.name = name[0]
     }
     if (name[1]) {
         searchingUser.surname = name[1]
     }
-    // {
-    //     $and: [{"name": searchingUser.name}, {"surname": searchingUser.surname}]
-    // }
     User.find(searchingUser).then(users => {
-        //console.log('+_+_+_+__+_+_+_+ log in user search =>:>>', users)
         users.forEach(user => {
             filterResult.push({
                 avatar: user.avatar,
@@ -26,7 +22,7 @@ exports.searchUsers = (req, res, next) => {
                 surname: user.surname,
                 id: user._id
             })
-        })
+        });
         res.json({
             success: true,
             result: filterResult
@@ -34,4 +30,4 @@ exports.searchUsers = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}   
+};
