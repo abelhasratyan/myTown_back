@@ -197,29 +197,44 @@ exports.validateNumber = (req, res, next) => {
 }
 
 exports.getUser = (req, res, next) => {
-    Users.findOne({_id: req.params.id})
-    .then((user) => {
-        res.json({
-            success: true,
-            searchedUser: user
+    if (!req.params.id) {
+        Users.findOne({_id: req.user._id}).then(user => {
+            if (user) {
+                res.json({
+                    user,
+                    success: true
+                })
+            }
+        }).catch(err => {
+            next(new Error(err))
         })
-    })
-    .catch((err) => {
-        next(err)
-    })
-
+    } else {
+        Users.findOne({_id: req.params.id}).then(user => {
+            if (user) {
+                res.json({
+                    user,
+                    success: true
+                })
+            }
+        }).catch(err => {
+            next(err)
+        })
+    }
 }
 
-exports.userForgotPassword = (req, res, next) => {
+/*exports.userForgotPassword = (req, res, next) => {
     const newPassword = req.body.password
     const confirmPassword = req.body.c_password
-    const userEmail = helper.userEmail
+    const userEmail = req.body.mail
         
     Users.findOne({ email: userEmail })
     .then(user => {
         if (user) {
             if (newPassword == confirmPassword) {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    if (err) {
+                        console.log('hashing err =>>>>>', err)
+                    }
                    user.password = hash
                    user.save(err => {
                        next(err)
@@ -230,7 +245,6 @@ exports.userForgotPassword = (req, res, next) => {
                 }, "SuperSecRetKey", {
                         expiresIn: '365d' // expires in 1 year
                 });
-                helper.userEmail = ''
                 helper.RandNumber = 0
                 
                 res.status(200).json({
@@ -247,6 +261,58 @@ exports.userForgotPassword = (req, res, next) => {
             }
         }
     }).catch(err => {
+        next(err)
+    })
+}
+*/
+
+exports.userForgotPassword = (req, res, next) => {
+    console.log('log 1 in userForgotPassword');
+    const newPassword = req.body.password;
+    const confirmPassword = req.body.c_password;
+    const userEmail = req.body.data.mail;
+    console.log("+_+_+_+_+_+_++++++++++++ req.body = .>>>>>>>", req.body);
+    console.log('req.body.mail=>>>>', req.body.data.mail)
+
+    Users.findOne({ email: userEmail })
+    .then(user => {
+        console.log('log 2 in userForgotPassword');
+        if (user) {
+            console.log('log 3 in userForgotPassword');
+            if (newPassword === confirmPassword) {
+                console.log(true)
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    console.log('log 4 in userForgotPassword');
+                    user.password = hash
+                    user.save(err => {
+                        next(err)
+                    });
+                    console.log('log 5 in userForgotPassword');
+                    let token = jwt.sign({
+                        id: user._id,
+                        email: user.email
+                    }, "SuperSecRetKey", {
+                        expiresIn: '365d' // expires in 1 year
+                    });
+                    helper.RandNumber = 0;
+                    console.log('log 6 in userForgotPassword');
+                    res.status(200).json({
+                        success: true,
+                        user,
+                        token: token
+                    })
+                })
+            } else {
+                console.log('log 7 in userForgotPassword');
+                return res.json({
+                    success: false
+                })
+            }
+        } else {
+            console.log("user is undefined")
+        }
+    }).catch(err => {
+        console.log('log 8 in userForgotPassword');
         next(err)
     })
 }
