@@ -197,29 +197,17 @@ exports.validateNumber = (req, res, next) => {
 }
 
 exports.getUser = (req, res, next) => {
-    if (!req.params.id) {
-        Users.findOne({_id: req.user._id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(new Error(err))
+    Users.findOne({_id: req.params.id})
+    .then((user) => {
+        res.json({
+            success: true,
+            searchedUser: user
         })
-    } else {
-        Users.findOne({_id: req.params.id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(err)
-        })
-    }
+    })
+    .catch((err) => {
+        next(err)
+    })
+
 }
 
 exports.userForgotPassword = (req, res, next) => {

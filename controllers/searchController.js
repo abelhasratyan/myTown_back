@@ -18,6 +18,7 @@ exports.searchUsers = (req, res, next) => {
     //     $and: [{"name": searchingUser.name}, {"surname": searchingUser.surname}]
     // }
     User.find(searchingUser).then(users => {
+        //console.log('+_+_+_+__+_+_+_+ log in user search =>:>>', users)
         users.forEach(user => {
             filterResult.push({
                 avatar: user.avatar,
