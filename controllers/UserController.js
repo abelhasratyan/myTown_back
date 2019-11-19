@@ -9,6 +9,7 @@ const Token = require('../helpers/generateToken');
 
 // const bcrypt = require('bcryptjs')
 // const jwt = require('jsonwebtoken')
+
 const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
 
@@ -495,20 +496,42 @@ exports.UpdateUserData = (req, res, next) => {
 }
 
 exports.updateUserProfilePhoto = (req, res, next) => {
-    console.log('req.file =>>>', req.file);
-    console.log('req.body =>>>', req.body.userId);
-    Users.findOneAndUpdate({_id: req.body.userId}, {
-        $set: { avatar: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`}
-    }, { new: true})
-    .then(result => {
-        if (!result) {
-            console.log('case if result is null =>', result)
-        } else {
-            console.log('case if result is true =>', result)
-        }
+    // console.log('log 1 in')
+    let fileData = {};
+    if (req.file) {
+        fileData.path = `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`
+    }
+    const userId = '5dd386558c6b882155a33dec';
+    Users.findOneAndUpdate({ _id: userId }, {
+        avatar: fileData.path 
+    }, {new: true})
+    .then(user => {
+        // console.log('user after modifaying =>>>>', user)
+        res.json({
+            success: true,
+            user
+        })
     })
     .catch(err => {
-        next(err)
+        console.log('errr=>>>>', err)
     })
+    
+
+    // console.log('req.file =>>>', req.file);
+    // console.log('req.body =>>>', req.body.userId);
+    // const userId = '5dd386558c6b882155a33dec';
+    // Users.findOneAndUpdate({_id: userId}, {
+    //     $set: { avatar: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`}
+    // }, { new: true})
+    // .then(result => {
+    //     if (!result) {
+    //         console.log('case if result is null =>', result)
+    //     } else {
+    //         console.log('case if result is true =>', result)
+    //     }
+    // })
+    // .catch(err => {
+    //     next(err)
+    // })
 };
 
