@@ -19,7 +19,10 @@ router.post('/login', User.login)
 
 
 // User
-router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
+//router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser)
+
+router.post('/user', passport.authenticate('jwt', { session: false }), User.getUser)
+
 router.get('/user/:id', passport.authenticate('jwt', { session: false }), User.getUser)
 router.post('/updateuser', passport.authenticate('jwt', { session: false }), User.UpdateUserData)
 router.post('/user/avatar/update', passport.authenticate('jwt', {session: false}), upload.single('file'), User.updateUserProfilePhoto)

@@ -324,7 +324,7 @@ exports.validateNumber = (req, res, next) => {
 }
 
 exports.getUser = (req, res, next) => {
-    const reqUserId = req.params.id;
+    const reqUserId = req.params.id || req.user._id;
     const resData = {};
     Users.findOne({ _id: reqUserId })
     .then(user => {
@@ -335,7 +335,8 @@ exports.getUser = (req, res, next) => {
         resData.posts = posts;
         res.json({
             success: true,
-            resData
+            user: resData.user,
+            posts: resData.posts
         })
     })
     .catch(err => {
@@ -388,27 +389,20 @@ exports.getUser = (req, res, next) => {
 */
 
 exports.userForgotPassword = (req, res, next) => {
-    console.log('log 1 in userForgotPassword');
     const newPassword = req.body.password;
     const confirmPassword = req.body.c_password;
     const userEmail = req.body.data.mail;
-    console.log("+_+_+_+_+_+_++++++++++++ req.body = .>>>>>>>", req.body);
-    console.log('req.body.mail=>>>>', req.body.data.mail)
 
     Users.findOne({ email: userEmail })
     .then(user => {
-        console.log('log 2 in userForgotPassword');
         if (user) {
-            console.log('log 3 in userForgotPassword');
             if (newPassword === confirmPassword) {
                 console.log(true)
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    console.log('log 4 in userForgotPassword');
                     user.password = hash
                     user.save(err => {
                         next(err)
                     });
-                    console.log('log 5 in userForgotPassword');
                     let token = jwt.sign({
                         id: user._id,
                         email: user.email
@@ -416,7 +410,6 @@ exports.userForgotPassword = (req, res, next) => {
                         expiresIn: '365d' // expires in 1 year
                     });
                     helper.RandNumber = 0;
-                    console.log('log 6 in userForgotPassword');
                     res.status(200).json({
                         success: true,
                         user,
@@ -424,7 +417,6 @@ exports.userForgotPassword = (req, res, next) => {
                     })
                 })
             } else {
-                console.log('log 7 in userForgotPassword');
                 return res.json({
                     success: false
                 })
@@ -433,13 +425,11 @@ exports.userForgotPassword = (req, res, next) => {
             console.log("user is undefined")
         }
     }).catch(err => {
-        console.log('log 8 in userForgotPassword');
         next(err)
     })
 }
 
 exports.UpdateUserData = (req, res, next) => {
-    console.log('log 1 in updateUserData')
     // if (req.body.password != req.body.c_password) {
     //     console.log('log 2 in updateUserData')
     //     res.json({
@@ -447,7 +437,6 @@ exports.UpdateUserData = (req, res, next) => {
     //         msg: 'Confirm Password don\'t like Password'
     //     })
     // } else {
-        console.log('log 3 in updateUserData');
         const newUserData = {
             name: req.body.name,
             surname: req.body.surname,
@@ -478,23 +467,18 @@ exports.UpdateUserData = (req, res, next) => {
                         }
                 }, { new: true })
                 .then(result => {
-                    console.log('log 7 in updateUserData');
                     if (!result) {
-                        console.log('log 8 in updateUserData');
                         const error = new Error('cant find user');
                         error.msg = 'cant find user';
                         error.status = 404;
                         next(error)
                     } else {
-                        console.log('log 9 in updateUserData');
-                        console.log('result ->>>>>', result);
                         let token = jwt.sign({
                             id: result._id,
                             email: result.email
                         }, "SuperSecRetKey", {
                                 expiresIn: '365d' // expires in 1 year
                         });
-                        console.log('log 10 in updateUserData');
                         res.json({
                             success: true,
                             user: result,
@@ -503,8 +487,6 @@ exports.UpdateUserData = (req, res, next) => {
                     }
                 })
                 .catch(err => {
-                    console.log('log 11 in updateUserData');
-                    console.log('log in catch err =>>>', err);
                     next(err);
                 })
             // }

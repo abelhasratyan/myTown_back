@@ -50,7 +50,7 @@ exports.getUserPosts = (req, res, next) => {
         } else {
             res.json({
                 success: true,
-                postsList: result.posts
+                result: result.posts
             })
         }
     })
