@@ -324,30 +324,23 @@ exports.validateNumber = (req, res, next) => {
 }
 
 exports.getUser = (req, res, next) => {
-    console.log('+_+_+_+_+ in user get user params.id =>>>>>>>', req.params.id);
-    if (!req.params.id) {
-        Users.findOne({_id: req.user._id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(new Error(err))
+    const reqUserId = req.params.id;
+    const resData = {};
+    Users.findOne({ _id: reqUserId })
+    .then(user => {
+        resData.user = user;
+        return Posts.findOne({ userId: reqUserId })
+    })
+    .then( posts => {
+        resData.posts = posts;
+        res.json({
+            success: true,
+            resData
         })
-    } else {
-        Users.findOne({_id: req.params.id}).then(user => {
-            if (user) {
-                res.json({
-                    user,
-                    success: true
-                })
-            }
-        }).catch(err => {
-            next(err)
-        })
-    }
+    })
+    .catch(err => {
+        next(err)
+    })
 };
 
 /*exports.userForgotPassword = (req, res, next) => {
