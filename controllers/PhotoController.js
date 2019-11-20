@@ -72,11 +72,11 @@ exports.getUserAlbums = (req, res, next) => {
 exports.addPhoto = (req, res, next) => {
     const data = {
         name: req.file.filename,
-        link: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`,
+        link: `${process.env.SERVER_URL}/uploads/images/${req.file.filename}`,
         album: req.body.album,
         user: req.user._id
-    }
-    console.log(data);
+    };
+    console.log('+_+_+_+_+_+',data);
     
     Photo.create(data).then(response => {        
         Album.findOneAndUpdate({

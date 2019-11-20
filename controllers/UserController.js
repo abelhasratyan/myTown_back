@@ -7,11 +7,9 @@ const Posts = require('../models/PostModel');
 const Hash = require('../helpers/hash');
 const Token = require('../helpers/generateToken');
 
-// const bcrypt = require('bcryptjs')
-// const jwt = require('jsonwebtoken')
-
 const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
+const fs = require('fs');
 
 // exports.login = (req, res, next) => {
 //     const email = req.body.email.trim();
@@ -114,7 +112,6 @@ exports.login = (req, res, next) => {
         next(error);
     })
 }
-
 
 // exports.registration = (req, res, next) => {
 //
@@ -496,42 +493,76 @@ exports.UpdateUserData = (req, res, next) => {
 }
 
 exports.updateUserProfilePhoto = (req, res, next) => {
-    // console.log('log 1 in')
+    const userId = '5dd4f728f5ba874e192c97af';
+    // const userId = req.body.id;
     let fileData = {};
-    if (req.file) {
+    if (!req.file) {
+        res.json({
+            success: false,
+            msg: "can't receive file"
+        })
+    } else {
         fileData.path = `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`
     }
-    const userId = '5dd386558c6b882155a33dec';
     Users.findOneAndUpdate({ _id: userId }, {
         avatar: fileData.path 
     }, {new: true})
     .then(user => {
-        // console.log('user after modifaying =>>>>', user)
+        if ((user === null) || (user === undefined)) {
+            fs.unlink(fileData.path, (err) => {
+                if (err) {
+                    next(err);
+                }
+            });
+            res.json({
+                success: false,
+                msg: "can't find user"
+            })
+        }
         res.json({
             success: true,
             user
         })
     })
     .catch(err => {
-        console.log('errr=>>>>', err)
+        next(err)
     })
-    
+};
 
-    // console.log('req.file =>>>', req.file);
-    // console.log('req.body =>>>', req.body.userId);
-    // const userId = '5dd386558c6b882155a33dec';
-    // Users.findOneAndUpdate({_id: userId}, {
-    //     $set: { avatar: `${process.env.SERVER_URL}/uploads/avatars/${req.file.filename}`}
-    // }, { new: true})
-    // .then(result => {
-    //     if (!result) {
-    //         console.log('case if result is null =>', result)
-    //     } else {
-    //         console.log('case if result is true =>', result)
-    //     }
-    // })
-    // .catch(err => {
-    //     next(err)
-    // })
+exports.updateUserCoverPhoto = (req, res, next) => {
+    // const userId = '5dd4f728f5ba874e192c97af';
+    const userId = req.body.id;
+    let fileData = {};
+    if (!req.file) {
+
+        res.json({
+            success: false,
+            msg: "can't receive file"
+        })
+    } else {
+        fileData.path = `${process.env.SERVER_URL}/uploads/cover/${req.file.filename}`
+    }
+    Users.findOneAndUpdate({ _id: userId }, {
+        coverPhoto: fileData.path
+    }, { new: true })
+    .then(user => {
+        if ((user === null) || (user === undefined)) {
+            res.json({
+                success: false,
+                msg: "can't find user"
+            })
+        } else {
+            res.json({
+                success: true,
+                user
+            })
+        }
+    })
+    .catch(err => {
+        res.json({
+            success: false,
+            err
+        })
+    });
 };
 
