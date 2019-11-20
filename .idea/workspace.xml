@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2cf50df5-f68e-4597-90cf-33f046ea1e30" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/middlewares/checkUser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middlewares/uploadAvatarPhoto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middlewares/uploadCoverPhoto.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/PhotoController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/PhotoController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/PostController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/PostController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/UserController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/uploadPostPhoto.js" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/uploadPostPhoto.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/uploadSingleImage.js" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/uploadSingleImage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/posts/171039_970-backgound.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/middlewares/checkUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/checkUser.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +51,7 @@
       <workItem from="1574086075336" duration="2854000" />
       <workItem from="1574141308248" duration="6694000" />
       <workItem from="1574166277119" duration="1401000" />
-      <workItem from="1574227062925" duration="22525000" />
+      <workItem from="1574227062925" duration="25069000" />
     </task>
     <servers />
   </component>

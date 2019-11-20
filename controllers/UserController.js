@@ -493,8 +493,7 @@ exports.UpdateUserData = (req, res, next) => {
 }
 
 exports.updateUserProfilePhoto = (req, res, next) => {
-    const userId = '5dd4f728f5ba874e192c97af';
-    // const userId = req.body.id;
+    const userId = req.user._id;
     let fileData = {};
     if (!req.file) {
         res.json({
@@ -530,11 +529,9 @@ exports.updateUserProfilePhoto = (req, res, next) => {
 };
 
 exports.updateUserCoverPhoto = (req, res, next) => {
-    // const userId = '5dd4f728f5ba874e192c97af';
-    const userId = req.body.id;
+    const userId = req.user._id;
     let fileData = {};
     if (!req.file) {
-
         res.json({
             success: false,
             msg: "can't receive file"

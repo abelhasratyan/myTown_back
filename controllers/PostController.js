@@ -6,7 +6,6 @@ exports.addPost = (req, res, next) => {
         userId: req.body.userId,
         text: req.body.text,
     };
-    // console.log("+_+_+_+ req.file =>?", req.file);
     if (req.file) {
         postData.file = {
             path: `${process.env.SERVER_URL}/uploads/posts/${req.file.filename}`,
