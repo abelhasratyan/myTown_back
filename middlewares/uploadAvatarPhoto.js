@@ -15,8 +15,8 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
         cb(null, true);
     } else {
-        const error = new Error('It is wrong File')
-        error.status = 402
+        const error = new Error('It is wrong File');
+        error.status = 402;
         cb(error);
     }
 }

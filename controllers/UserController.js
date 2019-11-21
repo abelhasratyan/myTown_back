@@ -9,56 +9,6 @@ const Token = require('../helpers/generateToken');
 
 const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
-const fs = require('fs');
-
-// exports.login = (req, res, next) => {
-//     const email = req.body.email.trim();
-//     const userData = {
-//         email: email,
-//         password: req.body.password
-//     }
-//
-//     Users.findOne({
-//         email: email
-//     }).then(user => {
-//         if (user.role === 'ADMIN') {
-//             res.json({
-//                 success: false,
-//                 message: "Such USER does not exist"
-//             })
-//         } else if (!user) {
-//             const error = new Error("email is uncorrect")
-//             error.status = 400
-//             next(error)
-//         } else {
-//             bcrypt.compare(userData.password, user.password, (err, hash) => {
-//                 if (hash) {
-//                     let token = jwt.sign({
-//                         id: user._id,
-//                         email: user.email
-//                     }, "SuperSecRetKey", {
-//                             expiresIn: '365d' // expires in 1 year
-//                         });
-//                     res.json({
-//                         status: "success",
-//                         user,
-//                         token: token
-//                     })
-//                 } else {
-//                     const error = new Error("password is wrong")
-//                     error.msg = "password is wrong"
-//                     error.status = 401
-//                     next(error)
-//                 }
-//             })
-//         }
-//     }).catch(err => {
-//         const error = new Error(err)
-//         error.message = 'Such Admin doesn\'t exist'
-//         error.success = false
-//         next(error)
-//     })
-// }
 
 exports.login = (req, res, next) => {
     const email = req.body.email.trim();
@@ -111,85 +61,7 @@ exports.login = (req, res, next) => {
         error.success = false;
         next(error);
     })
-}
-
-// exports.registration = (req, res, next) => {
-//
-//     const validation = Valid.userValidation(req.body)
-//     if (!validation.validationType) {
-//         // next(new Error(validation.messages));
-//         res.status(400).json({ type: "error", messages: validation.messages })
-//         return;
-//     }
-//
-//     const userData = {
-//         name: req.body.name,
-//         surname: req.body.surname,
-//         email: req.body.email,
-//         password: req.body.password,
-//         birthday: req.body.birthday,
-//         country: req.body.country,
-//         city: req.body.city,
-//     }
-//     Users.findOne({
-//         email: req.body.email
-//     }).then(user => {
-//         if (user) {
-//             res.json({
-//                 error: `${user.role} already exist:`
-//             })
-//         } else {
-//             bcrypt.hash(req.body.password, 10, (err, hash) => {
-//                 if (req.body.password === req.body.c_password) {
-//                     userData.password = hash;
-//                     Users.create(userData)
-//                         .then(user => {
-//                             let token = jwt.sign({
-//                                 id: user._id,
-//                                 email: user.email
-//                             }, "SuperSecRetKey", {
-//                                     expiresIn: '365d' // expires in 1 year
-//                             });
-//                             res.json({
-//                                 success: true,
-//                                 user,
-//                                 token: token
-//                             })
-//                             Album.create([
-//                                 {
-//                                     title: "Cover",
-//                                     user: user._id
-//                                 },
-//                                 {
-//                                     title: "Profile",
-//                                     user: user._id
-//                                 }
-//                             ])
-//                             Friends.create({
-//                                 user: user._id
-//                             })
-//                             Posts.create({
-//                                 userId: user._id
-//                             })
-//                         })
-//                         .catch(err => {
-//                             res.json({ error: err, msg: "error" })
-//                         })
-//                 } else {
-//                     res.json({
-//                         error: 'Confirm Password don\'t like Password'
-//                     })
-//                 }
-//
-//             })
-//         }
-//
-//     }).catch(err => {
-//         const error = new Error()
-//         error.message = err
-//         next(error)
-//     })
-// };
+};
 
 exports.registration = (req, res, next) => {
     let userForResponse = {};
@@ -508,22 +380,19 @@ exports.updateUserProfilePhoto = (req, res, next) => {
     }, {new: true})
     .then(user => {
         if ((user === null) || (user === undefined)) {
-            fs.unlink(fileData.path, (err) => {
-                if (err) {
-                    next(err);
-                }
-            });
             res.json({
                 success: false,
                 msg: "can't find user"
             })
+        } else {
+            res.json({
+                success: true,
+                user
+            })
         }
-        res.json({
-            success: true,
-            user
-        })
     })
     .catch(err => {
+        console.log('log 9 in user controller');
         next(err)
     })
 };
