@@ -39,7 +39,7 @@ const EventSchema = new Schema({
             type: String,
             required: true,
         },
-        counntry: {
+        country: {
             type: String,
             required: true
         },
@@ -47,15 +47,15 @@ const EventSchema = new Schema({
             type: String,
             required: true
         },
-        placeName: {
+        place_name: {
             type: String,
             required: true
         },
-        dataStart: {
+        data_start: {
             type: String,
             required: true
         },
-        dataEnd: {
+        data_end: {
             type: String,
             required: true
         },
