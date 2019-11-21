@@ -18,11 +18,30 @@ exports.createEvent = (req, res, next) => {
             })
         } else {
             res.json({
-                success: true,
-                event: result.events
+                success: true
             })
         }
     }).catch(err => {
+            next(err)
+        });
+};
+
+exports.getEvents = (req, res, next) => {
+    const Id = req.params.id;
+    Event.findOne({ userId: Id})
+        .then(result => {
+            if ((result === null) || (result === undefined)) {
+                res.status(400).json({
+                    success: false
+                })
+            } else {
+                res.status(200).json({
+                    success: true,
+                    result: result.events
+                })
+            }
+        })
+        .catch(err => {
             next(err)
         });
 };
