@@ -3,15 +3,16 @@ const Album = require('../controllers/PhotoController');
 const Friend = require('../controllers/friendController');
 const Post = require('../controllers/PostController');
 const Search = require('../controllers/searchController');
+const Event = require('../controllers/EventController');
 
-const passport = require('passport');
-const checkUser = require('../middlewares/checkUser');
 const upload = require('../middlewares/uploadSingleImage');
 const AvatarPhoto = require('../middlewares/uploadAvatarPhoto');
 const CoverPhoto = require('../middlewares/uploadCoverPhoto');
 const postImage = require('../middlewares/uploadPostPhoto');
+const checkUser = require('../middlewares/checkUser');
 const finds = require('../middlewares/finds');
 
+const passport = require('passport');
 const express = require('express');
 const router = express.Router();
 
@@ -65,8 +66,8 @@ router.get('/user/:id/posts', passport.authenticate('jwt', { session: false }), 
 // Search
 router.post('/search', passport.authenticate('jwt', { session: false }), Search.searchUsers);
 
-// passport.authenticate('jwt', { session: false })
-
+//Events
+router.post('/user/addevent', passport.authenticate('jwt', {session: false}), Event.createEvent);
 
 
 

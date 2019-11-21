@@ -3,6 +3,7 @@ const Album = require('../models/AlbumModel');
 const Valid = require('../helpers/validation');
 const Friends = require('../models/frinedsModel');
 const Posts = require('../models/PostModel');
+const Events = require('../models/EventModel');
 
 const Hash = require('../helpers/hash');
 const Token = require('../helpers/generateToken');
@@ -111,13 +112,16 @@ exports.registration = (req, res, next) => {
                 title: "Profile",
                 user: NewUser._id
             }
-        ])
+        ]);
         Friends.create({
             user: NewUser._id
-        })
+        });
         Posts.create({
             userId: NewUser._id
-        })
+        });
+        Events.create({
+            userId: NewUser._id
+        });
         return Token.generateToken(NewUser._id, NewUser.email)
     }).then((token) => {
         res.json({
@@ -130,7 +134,7 @@ exports.registration = (req, res, next) => {
         error.message = err;
         next(error)
     })
-}
+};
 
 exports.validateUser = (req, res, next) => {
     const emailFromReq = req.body.email;
@@ -170,7 +174,7 @@ exports.validateUser = (req, res, next) => {
         error.success = false
         next(error) 
     })
-}
+};
 
 exports.validateNumber = (req, res, next) => {
     const value = req.body.value
@@ -191,7 +195,7 @@ exports.validateNumber = (req, res, next) => {
             })
         }
     }
-}
+};
 
 exports.getUser = (req, res, next) => {
     const reqUserId = req.params.id || req.user._id;
@@ -267,7 +271,7 @@ exports.userForgotPassword = (req, res, next) => {
     .then(user => {
         if (user) {
             if (newPassword === confirmPassword) {
-                console.log(true)
+                console.log(true);
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     user.password = hash
                     user.save(err => {
@@ -297,7 +301,7 @@ exports.userForgotPassword = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};
 
 exports.UpdateUserData = (req, res, next) => {
     // if (req.body.password != req.body.c_password) {
@@ -362,7 +366,7 @@ exports.UpdateUserData = (req, res, next) => {
             // }
         // })
     // }
-}
+};
 
 exports.updateUserProfilePhoto = (req, res, next) => {
     const userId = req.user._id;

@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const db = require('../lib/db_connect')
+const mongoose = require('mongoose');
+const db = require('../lib/db_connect');
 
 const Schema = mongoose.Schema;
 
 const today = new Date();
-const dataFormat = today.toISOString()
+const dataFormat = today.toISOString();
 
 const albumSchema = new Schema({
     title: {

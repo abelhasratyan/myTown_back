@@ -26,9 +26,8 @@ const PostSchema = new Schema({
         path: String,
         name: String  
       }
-      // to do image
       // to do comment like and share
     }]
-  })
+  });
   
   module.exports = Posts = db.model('posts', PostSchema);
