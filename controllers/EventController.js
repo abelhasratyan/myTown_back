@@ -70,6 +70,33 @@ exports.deleteEvent = (req, res, next) => {
     });
 };
 
-exports.updateEvent = (req, res, next) => {
-
-}
+exports.updateEvent = async (req, res, next) => {
+    const currentUserId = req.body.userId;
+    const eventId = req.body.eventId;
+    let eventData = {
+        title: req.body.event.title,
+        description: req.body.event.description,
+        categories: req.body.event.categories,
+        country: req.body.event.country,
+        city: req.body.event.city,
+        place_name: req.body.event.place_name,
+        data_start: req.body.event.data_start,
+        data_end: req.body.event.data_end,
+    };
+    Event.findOneAndUpdate({ userId: currentUserId, 'events._id': eventId }, {
+        $set: { 'events.$': eventData }
+    }, { new : true}).then(result => {
+        if ((result === null) || (result === undefined)) {
+            res.status(400).json({
+                success: false,
+                msg: 'Can\'t find event'
+            })
+        } else {
+            res.status(200).json({
+                success: true
+            })
+        }
+    }).catch(err => {
+        next(err);
+    });
+};
