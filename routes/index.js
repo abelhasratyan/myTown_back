@@ -69,5 +69,6 @@ router.post('/search', passport.authenticate('jwt', { session: false }), Search.
 //Events
 router.post('/user/addevent', passport.authenticate('jwt', {session: false}), Event.createEvent);
 router.get('/user/events/:id', passport.authenticate('jwt', {session: false}), Event.getEvents);
-
+router.post('/user/deleteevent', passport.authenticate('jwt', {session: false}), Event.deleteEvent);
+//
 module.exports = router;

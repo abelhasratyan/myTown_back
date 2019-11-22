@@ -41,13 +41,13 @@ const AddToFriend = async (userId, friendId, next) => {
 
 const DeleteFormFriends = async (currentUserId, deleteFriendId, next) => {
     await Friend.findOneAndUpdate({user: currentUserId }, {
-        $pull:{ friends:  deleteFriendId  }
+        $pull: { friends:  deleteFriendId  }
     }).then(result => {
         if (result) {
             return true
         } else {
-            let error = new Error()
-            error.msg = "couldn't add friend"
+            let error = new Error();
+            error.msg = "couldn't add friend";
             next(error)
         }
     }) 
@@ -58,12 +58,12 @@ const DeleteFormFriends = async (currentUserId, deleteFriendId, next) => {
 }
 
 exports.addFriend = (req, res ,next) => {
-    let currentUser = req.body.currentUser
-    let askToFriend = req.body.askToFriend
-    let counter = 0
+    let currentUser = req.body.currentUser;
+    let askToFriend = req.body.askToFriend;
+    let counter = 0;
 
     if (currentUser === askToFriend) {
-        let error = new Error('cannot add to friend')
+        let error = new Error('cannot add to friend');
         next(error)
     } else if (!haveOnFrinedList(currentUser, askToFriend, next)) {
         return res.json({
@@ -82,7 +82,7 @@ exports.addFriend = (req, res ,next) => {
             success: true
         })
     } else {
-        let error = new Error('cannot add to friend')
+        let error = new Error('cannot add to friend');
         next(error)
     }
 }
@@ -103,12 +103,12 @@ exports.getFriends = (req, res, next) => {
 }
 
 exports.deleteFriend = (req, res, next) => {
-    let currentUser = req.body.currentUserId
-    let deleteFriend = req.body.deleteFriendId
+    let currentUser = req.body.currentUserId;
+    let deleteFriend = req.body.deleteFriendId;
     let counter = 0;
 
     if (currentUser === deleteFriend) {
-        let error = new Error('cannot delete')
+        let error = new Error('cannot delete');
         next(error)
     } else if (DeleteFormFriends(currentUser, deleteFriend, next)) {
         counter++;
@@ -117,7 +117,7 @@ exports.deleteFriend = (req, res, next) => {
     if (DeleteFormFriends( deleteFriend, currentUser, next)) {
         counter++;
     }
-    if (counter == 2 ) {
+    if (counter === 2 ) {
         counter = 0;
         res.json({
             success: true

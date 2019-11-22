@@ -4,7 +4,13 @@
     <list default="true" id="2cf50df5-f68e-4597-90cf-33f046ea1e30" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/EventController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/EventController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/EventModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/EventModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/friendController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/friendController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/avatars/095806_283-4eb0fb3e19c23b4e955bca1fade570a4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/avatars/100127_801-4eb0fb3e19c23b4e955bca1fade570a4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/avatars/100319_693-4eb0fb3e19c23b4e955bca1fade570a4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/avatars/100705_731-4eb0fb3e19c23b4e955bca1fade570a4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/avatars/190617_295-4eb0fb3e19c23b4e955bca1fade570a4.jpg" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +58,9 @@
       <workItem from="1574166277119" duration="1401000" />
       <workItem from="1574227062925" duration="28124000" />
       <workItem from="1574313367914" duration="12099000" />
+      <workItem from="1574399386443" duration="3635000" />
+      <workItem from="1574406324393" duration="116000" />
+      <workItem from="1574406923960" duration="1035000" />
     </task>
     <servers />
   </component>

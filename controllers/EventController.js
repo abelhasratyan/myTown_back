@@ -2,9 +2,7 @@ const Event = require('../models/EventModel');
 
 exports.createEvent = (req, res, next) => {
     let eventData = req.body.data;
-    // delete eventData.token;
-    console.log('+_+_+_+_+_++++ log in create event req.body.data=>>>', req.body.data);
-    console.log('+_+_+_+_+_++++ log in create event EventData=>>>', eventData);
+    delete eventData.token;
     Event.findOneAndUpdate({ userId: eventData.id }, {
         $push: {
             events: {
@@ -14,7 +12,6 @@ exports.createEvent = (req, res, next) => {
     }, {
         new: true
     }).then(result => {
-        console.log('in create event log result= >>', result)
         if ((result === null) || (result === undefined)) {
             res.json({
                 success: false
@@ -33,13 +30,11 @@ exports.getEvents = (req, res, next) => {
     const Id = req.params.id;
     Event.findOne({ userId: Id})
         .then(result => {
-            console.log("+_+_+_+ log in get event result =>>>", result);
             if ((result === null) || (result === undefined)) {
                 res.status(400).json({
                     success: false
                 })
             } else {
-                console.log('log in sending response get events result.events=>>', result.events);
                 res.status(200).json({
                     success: true,
                     result: result.events
@@ -49,4 +44,28 @@ exports.getEvents = (req, res, next) => {
         .catch(err => {
             next(err)
         });
+};
+
+exports.deleteEvent = (req, res, next) => {
+    let Id = req.body.userId;
+    let eventId = req.body.eventId;
+    Event.findOneAndUpdate({ userId: Id }, {
+        $pull: { 'events': { _id: eventId }}
+    }, { new: true })
+    .then(result => {
+        if ((result === null)|| (result === undefined)) {
+            res.status(400).json({
+                success: false,
+                msg: 'Can\'t find event'
+            })
+        } else {
+            res.json({
+                success: true,
+                result: result.events
+            });
+        }
+    })
+    .catch(err => {
+        next(err);
+    });
 };
