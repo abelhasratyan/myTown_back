@@ -69,3 +69,7 @@ exports.deleteEvent = (req, res, next) => {
         next(err);
     });
 };
+
+exports.updateEvent = (req, res, next) => {
+
+}
