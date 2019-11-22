@@ -24,10 +24,10 @@ const EventSchema = new Schema({
             minlength: 3,
             maxlength: 60,
         },
-        //*********** Descuse ******
-        // tags: {
-        //     required: true,
-        // },
+        tag: {
+            type: String,
+            required: true,
+        },
         description: {
             required: true,
             type: String,

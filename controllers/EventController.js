@@ -3,6 +3,7 @@ const Event = require('../models/EventModel');
 exports.createEvent = (req, res, next) => {
     let eventData = req.body.data;
     delete eventData.token;
+    console.log('+_+_+_+_+_+_+ eventData =>>>', eventData);
     Event.findOneAndUpdate({ userId: eventData.id }, {
         $push: {
             events: {
@@ -17,6 +18,7 @@ exports.createEvent = (req, res, next) => {
                 success: false
             })
         } else {
+            console.log('+_+_+_+_+_++++ result =>>>>', result);
             res.json({
                 success: true
             })
@@ -75,6 +77,7 @@ exports.updateEvent = async (req, res, next) => {
     const eventId = req.body.eventId;
     let eventData = {
         title: req.body.event.title,
+        tag: req.body.event.tag,
         description: req.body.event.description,
         categories: req.body.event.categories,
         country: req.body.event.country,

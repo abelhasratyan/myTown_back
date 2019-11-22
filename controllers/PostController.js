@@ -1,5 +1,4 @@
-const Posts = require('../models/PostModel')
-const User = require('../models/UserModel')
+const Posts = require('../models/PostModel');
 
 exports.addPost = (req, res, next) => {
     const postData = {

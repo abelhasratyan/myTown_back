@@ -95,7 +95,7 @@ exports.registration = (req, res, next) => {
                     error: 'Confirm Password don\'t like Password'
                 })
             } else {
-                return Hash.HashingPassword(userData.password, 10)
+                return Hash.HashingPassword(userData.password)
             }
         }
     }).then((hash) => {
@@ -263,44 +263,53 @@ exports.getUser = (req, res, next) => {
 */
 
 exports.userForgotPassword = (req, res, next) => {
-    const newPassword = req.body.password;
-    const confirmPassword = req.body.c_password;
+    const newPassword = req.body.data.password;
+    const confirmPassword = req.body.data.c_password;
     const userEmail = req.body.data.mail;
+    let userModel = {};
+
+    console.log('new password => ', newPassword);
+    console.log('confirm => ', confirmPassword);
+    console.log('email =>>', userEmail);
 
     Users.findOne({ email: userEmail })
     .then(user => {
-        if (user) {
-            if (newPassword === confirmPassword) {
-                console.log(true);
-                bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    user.password = hash
-                    user.save(err => {
-                        next(err)
-                    });
-                    let token = jwt.sign({
-                        id: user._id,
-                        email: user.email
-                    }, "SuperSecRetKey", {
-                        expiresIn: '365d' // expires in 1 year
-                    });
-                    helper.RandNumber = 0;
-                    res.status(200).json({
-                        success: true,
-                        user,
-                        token: token
-                    })
-                })
-            } else {
-                return res.json({
-                    success: false
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                msg: 'Can\'t find user'
+            })
+        } else {
+            if (newPassword !== confirmPassword) {
+                res.status(400).json({
+                    success: false,
+                    msg: 'passwords doesn\'t match'
                 })
             }
-        } else {
-            console.log("user is undefined")
+            userModel = user;
+            return Hash.HashingPassword(newPassword);
         }
-    }).catch(err => {
-        next(err)
+    }).then(hash => {
+        userModel.password = hash;
+        userModel.save(err => {
+            next(err);
+        });
+        return Token.generateToken(userModel._id, userModel.email);
+    }).then(token => {
+        if (!token) {
+            res.status(400);
+        } else {
+            res.status(200).json({
+                success: true,
+                user: userModel,
+                token: token
+            })
+        }
     })
+    .catch(err => {
+        next(err);
+    })
+
 };
 
 exports.UpdateUserData = (req, res, next) => {
