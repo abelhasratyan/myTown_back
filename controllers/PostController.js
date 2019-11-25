@@ -29,17 +29,15 @@ exports.addPost = (req, res, next) => {
             result: result.posts.slice(0)[0]
         })
     }).catch(err => {
-        console.log(err)
         next(err)
     })
-}
+};
 
 exports.getUserPosts = (req, res, next) => {
     const userid = req.params.id;
     Posts.findOne({ 
         userId: userid
     }).then(result => {
-        // console.log(result);
         if (!result) {            
             res.json({
                 error: true,

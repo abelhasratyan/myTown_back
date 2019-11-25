@@ -7,11 +7,11 @@ const haveOnFrinedList = async (currentUserId, friendUserId, next) => {
     await Friend.findOne({user: currentUserId}, {
         friends: friendUserId    
     }).then(result => {
-        if (result.friends.length == 0) {
+        if (result.friends.length === 0) {
             return false
         } else {
             result.friends.forEach(element => {
-                if (element == friendUserId) {
+                if (element === friendUserId) {
                     return true
                 }
             });
@@ -24,8 +24,9 @@ const haveOnFrinedList = async (currentUserId, friendUserId, next) => {
 const AddToFriend = async (userId, friendId, next) => {
     await Friend.findOneAndUpdate({ user: userId }, {
         $push: {friends: friendId}
-    }, {new: true}).then(data => {
-        console.log('data', data)
+    }, {
+        new: true
+    }).then(data => {
         if (data) {
             return true;
         } else{
@@ -33,11 +34,10 @@ const AddToFriend = async (userId, friendId, next) => {
             error.msg = "couldn't add friend"
             next(error)
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         next(err)
     })
-}
+};
 
 const DeleteFormFriends = async (currentUserId, deleteFriendId, next) => {
     await Friend.findOneAndUpdate({user: currentUserId }, {
@@ -50,8 +50,7 @@ const DeleteFormFriends = async (currentUserId, deleteFriendId, next) => {
             error.msg = "couldn't add friend";
             next(error)
         }
-    }) 
-    .catch(err => {
+    }).catch(err => {
         next(err)
     })
     
@@ -85,7 +84,7 @@ exports.addFriend = (req, res ,next) => {
         let error = new Error('cannot add to friend');
         next(error)
     }
-}
+};
 
 exports.getFriends = (req, res, next) => {
     Friend.findOne({user: req.user.id}).populate('friends')
@@ -96,8 +95,7 @@ exports.getFriends = (req, res, next) => {
                 friends: result
             })
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         next(err)
     })
 }
@@ -126,5 +124,5 @@ exports.deleteFriend = (req, res, next) => {
         let error = new Error('cannot add to friend')
         next(error)
     }
-}
+};
 

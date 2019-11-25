@@ -5,14 +5,13 @@ exports.searchUsers = (req, res, next) => {
     let name = [];
     name = str.trim().split(" ");
 
-
     let filterResult = [];
     let searchingUser = {};
     if (name[0]) {
-        searchingUser.name = name[0]
+        searchingUser.name = name[0];
     }
     if (name[1]) {
-        searchingUser.surname = name[1]
+        searchingUser.surname = name[1];
     }
     User.find(searchingUser).then(users => {
         users.forEach(user => {

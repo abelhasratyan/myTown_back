@@ -1,5 +1,5 @@
-const Album = require('../models/AlbumModel')
-const Photo = require('../models/PhotoModel')
+const Album = require('../models/AlbumModel');
+const Photo = require('../models/PhotoModel');
 
 exports.CreateAlbum = (req, res, next) => {    
     const albumData = {
@@ -11,8 +11,8 @@ exports.CreateAlbum = (req, res, next) => {
         user: req.user._id
     }).then(album => {
         if (album) {
-            const error = new Error()
-            error.message = 'Such Album already exist'
+            const error = new Error();
+            error.message = 'Such Album already exist';
             next(error)
         } else {
             Album.create(albumData)
@@ -29,7 +29,7 @@ exports.CreateAlbum = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};
 
 exports.getAlbums = (req, res, next) => {
     if (!req.params.id) {
@@ -56,7 +56,7 @@ exports.getAlbums = (req, res, next) => {
             next(err)
         })
     }
-}
+};
 
 exports.getUserAlbums = (req, res, next) => {
     Album.find({user: req.user._id}).then(docs => {
@@ -67,7 +67,7 @@ exports.getUserAlbums = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};
 
 exports.addPhoto = (req, res, next) => {
     const data = {
@@ -76,7 +76,6 @@ exports.addPhoto = (req, res, next) => {
         album: req.body.album,
         user: req.user._id
     };
-    console.log('+_+_+_+_+_+',data);
     
     Photo.create(data).then(response => {        
         Album.findOneAndUpdate({
@@ -97,7 +96,7 @@ exports.addPhoto = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};
 
 exports.getProfilePhotos = (req, res, next) => {
     Photo.find({
@@ -111,7 +110,7 @@ exports.getProfilePhotos = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};
 
 exports.getCoverPhotos = (req, res, next) => {
     Photo.find({
@@ -125,4 +124,4 @@ exports.getCoverPhotos = (req, res, next) => {
     }).catch(err => {
         next(err)
     })
-}
+};

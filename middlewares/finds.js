@@ -1,4 +1,4 @@
-const Album = require('../models/AlbumModel')
+const Album = require('../models/AlbumModel');
 
 exports.findAlbum = (req, res, next) => {
     Album.findOne({

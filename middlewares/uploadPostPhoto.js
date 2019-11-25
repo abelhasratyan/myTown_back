@@ -4,7 +4,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination(req, files, cb) {
-        cb(null, path.resolve('./uploads/posts/'))
+        cb(null, path.resolve('./uploads/posts/'));
     },
     filename(req, files, cb) {
         const date = moment().format('HHmmss_SSS');
@@ -15,8 +15,8 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
         cb(null, file);
     } else {
-        const error = new Error('It is wrong File')
-        error.status = 402
+        const error = new Error('It is wrong File');
+        error.status = 402;
         cb(error);
     }
 }

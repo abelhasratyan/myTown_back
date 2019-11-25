@@ -4,7 +4,6 @@ const Event = require('../models/EventModel');
 exports.createEvent = (req, res, next) => {
     let eventData = req.body.data;
     delete eventData.token;
-    console.log('+_+_+_+_+_+_+ eventData =>>>', eventData);
     Event.findOneAndUpdate({ userId: eventData.id }, {
         $push: {
             events: {
@@ -19,7 +18,6 @@ exports.createEvent = (req, res, next) => {
                 success: false
             })
         } else {
-            console.log('+_+_+_+_+_++++ result =>>>>', result);
             res.json({
                 success: true
             })
@@ -31,22 +29,21 @@ exports.createEvent = (req, res, next) => {
 
 exports.getEvents = (req, res, next) => {
     const Id = req.params.id;
-    Event.findOne({ userId: Id})
-        .then(result => {
-            if ((result === null) || (result === undefined)) {
-                res.status(400).json({
-                    success: false
-                })
-            } else {
-                res.status(200).json({
-                    success: true,
-                    result: result.events
-                })
-            }
-        })
-        .catch(err => {
-            next(err)
-        });
+    Event.findOne({ userId: Id
+    }).then(result => {
+        if ((result === null) || (result === undefined)) {
+            res.status(400).json({
+                success: false
+            })
+        } else {
+            res.status(200).json({
+                success: true,
+                result: result.events
+            })
+        }
+    }).catch(err => {
+        next(err)
+    });
 };
 
 exports.deleteEvent = (req, res, next) => {
@@ -54,8 +51,9 @@ exports.deleteEvent = (req, res, next) => {
     let eventId = req.body.eventId;
     Event.findOneAndUpdate({ userId: Id }, {
         $pull: { 'events': { _id: eventId }}
-    }, { new: true })
-    .then(result => {
+    }, {
+        new: true
+    }).then(result => {
         if ((result === null)|| (result === undefined)) {
             res.status(400).json({
                 success: false,
@@ -67,8 +65,7 @@ exports.deleteEvent = (req, res, next) => {
                 result: result.events
             });
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         next(err);
     });
 };
@@ -89,7 +86,9 @@ exports.updateEvent = async (req, res, next) => {
     };
     Event.findOneAndUpdate({ userId: currentUserId, 'events._id': eventId }, {
         $set: { 'events.$': eventData }
-    }, { new : true}).then(result => {
+    }, {
+        new : true
+    }).then(result => {
         if ((result === null) || (result === undefined)) {
             res.status(400).json({
                 success: false,
