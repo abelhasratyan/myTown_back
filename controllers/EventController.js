@@ -1,5 +1,6 @@
 const Event = require('../models/EventModel');
 
+
 exports.createEvent = (req, res, next) => {
     let eventData = req.body.data;
     delete eventData.token;
