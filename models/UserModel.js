@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
-const db = require('../lib/db_connect')
-const types = require('../constants/roles')
+const mongoose = require('mongoose');
+const db = require('../lib/db_connect');
+const types = require('../constants/roles');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const Schema = mongoose.Schema;
 
 const today = new Date();
-const dataFormat = today.toISOString()
+const dataFormat = today.toISOString();
 
 const userSchema = new Schema({
     name: {
@@ -28,7 +28,7 @@ const userSchema = new Schema({
         required: true,
     },
     birthday: {
-        type: Date,
+        type: String,
         required: true
     },
     country: {
@@ -60,7 +60,7 @@ const userSchema = new Schema({
         type: Date,
         default: dataFormat
     }
-})
-userSchema.plugin(uniqueValidator)
+});
+userSchema.plugin(uniqueValidator);
 
 module.exports = Users = db.model("users", userSchema);

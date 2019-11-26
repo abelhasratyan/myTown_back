@@ -139,10 +139,10 @@ exports.registration = (req, res, next) => {
 exports.validateUser = (req, res, next) => {
     const emailFromReq = req.body.email;
     
-    Users.findOne({email: emailFromReq})
+    Users.findOne({ email: emailFromReq })
     .then(result => {
         if (result) {
-            helper.RandNumber = Math.floor(100000 + Math.random() * 900000)
+            helper.RandNumber = Math.floor(100000 + Math.random() * 900000);
             const mailOptions = {
                 from: `<${process.env.ADMIN_EMAIL}`, // sender address
                 to: `${emailFromReq}`, // list of receivers
@@ -166,8 +166,7 @@ exports.validateUser = (req, res, next) => {
                 success: false
             })
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         console.log('err => ', err)
         const error = new Error(err)
         error.message = "Can't fine user with this email"
@@ -204,16 +203,14 @@ exports.getUser = (req, res, next) => {
     .then(user => {
         resData.user = user;
         return Posts.findOne({ userId: reqUserId })
-    })
-    .then( posts => {
+    }).then( posts => {
         resData.posts = posts;
         res.json({
             success: true,
             user: resData.user,
             posts: resData.posts
         })
-    })
-    .catch(err => {
+    }).catch(err => {
         next(err)
     })
 };
@@ -305,8 +302,7 @@ exports.userForgotPassword = (req, res, next) => {
                 token: token
             })
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         next(err);
     })
 
@@ -348,8 +344,9 @@ exports.UpdateUserData = (req, res, next) => {
                             city: newUserData.city,
                             // password: newUserData.password
                         }
-                }, { new: true })
-                .then(result => {
+                }, {
+                    new: true
+                }).then(result => {
                     if (!result) {
                         const error = new Error('cant find user');
                         error.msg = 'cant find user';
@@ -368,8 +365,7 @@ exports.UpdateUserData = (req, res, next) => {
                             token
                         })
                     }
-                })
-                .catch(err => {
+                }).catch(err => {
                     next(err);
                 })
             // }
@@ -390,8 +386,9 @@ exports.updateUserProfilePhoto = (req, res, next) => {
     }
     Users.findOneAndUpdate({ _id: userId }, {
         avatar: fileData.path 
-    }, {new: true})
-    .then(user => {
+    }, {
+        new: true
+    }).then(user => {
         if ((user === null) || (user === undefined)) {
             res.json({
                 success: false,
@@ -403,8 +400,7 @@ exports.updateUserProfilePhoto = (req, res, next) => {
                 user
             })
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         console.log('log 9 in user controller');
         next(err)
     })
@@ -423,8 +419,9 @@ exports.updateUserCoverPhoto = (req, res, next) => {
     }
     Users.findOneAndUpdate({ _id: userId }, {
         coverPhoto: fileData.path
-    }, { new: true })
-    .then(user => {
+    }, {
+        new: true
+    }).then(user => {
         if ((user === null) || (user === undefined)) {
             res.json({
                 success: false,
@@ -436,8 +433,7 @@ exports.updateUserCoverPhoto = (req, res, next) => {
                 user
             })
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         res.json({
             success: false,
             err
