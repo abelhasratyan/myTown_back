@@ -70,14 +70,14 @@ exports.getUserAlbums = (req, res, next) => {
 };
 
 exports.addPhoto = (req, res, next) => {
+
     const data = {
         name: req.file.filename,
         link: `${process.env.SERVER_URL}/uploads/images/${req.file.filename}`,
         album: req.body.album,
         user: req.user._id
     };
-    
-    Photo.create(data).then(response => {        
+    Photo.create(data).then(response => {
         Album.findOneAndUpdate({
             title: req.body.album,
             user: req.user._id
@@ -87,7 +87,7 @@ exports.addPhoto = (req, res, next) => {
             if (docs) {
                 res.json({
                     success: true,
-                    response
+                    docs
                 })
             }
         }).catch(err => {
