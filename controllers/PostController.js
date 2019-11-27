@@ -59,7 +59,7 @@ exports.getUserPosts = (req, res, next) => {
 
 
 exports.deletePost = (req, res, next) => {
-    let userd = req.params.id;
+    let userd = req.body.userId;
     let postd = req.body.postId;
     let bool = false;
     Posts.findOneAndUpdate({ userId: userd }, {
