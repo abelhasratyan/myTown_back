@@ -21,6 +21,7 @@ const router = express.Router();
 router.post('/registration', User.registration);
 router.post('/login', User.login);
 
+
 // User
 router.get('/user', passport.authenticate('jwt', { session: false }), User.getUser);
 router.post('/user', passport.authenticate('jwt', { session: false }), User.getUser);
