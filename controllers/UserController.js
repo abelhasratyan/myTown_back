@@ -65,6 +65,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.registration = (req, res, next) => {
+    console.log('--------------------------');
     let userForResponse = {};
     const validation = Valid.userValidation(req.body);
     if (!validation.validationType) {
