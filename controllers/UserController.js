@@ -167,17 +167,17 @@ exports.validateUser = (req, res, next) => {
             })
         }
     }).catch(err => {
-        console.log('err => ', err)
-        const error = new Error(err)
-        error.message = "Can't fine user with this email"
-        error.success = false
-        next(error) 
+        console.log('err => ', err);
+        const error = new Error(err);
+        error.message = "Can't fine user with this email";
+        error.success = false;
+        next(error)
     })
 };
 
 exports.validateNumber = (req, res, next) => {
-    const value = req.body.value
-    const generateNumber = helper.RandNumber
+    const value = req.body.value;
+    const generateNumber = helper.RandNumber;
 
     if(value.length !== 6 ) {
         res.json({
@@ -215,49 +215,6 @@ exports.getUser = (req, res, next) => {
     })
 };
 
-/*exports.userForgotPassword = (req, res, next) => {
-    const newPassword = req.body.password
-    const confirmPassword = req.body.c_password
-    const userEmail = req.body.mail
-        
-    Users.findOne({ email: userEmail })
-    .then(user => {
-        if (user) {
-            if (newPassword == confirmPassword) {
-                bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    if (err) {
-                        console.log('hashing err =>>>>>', err)
-                    }
-                   user.password = hash
-                   user.save(err => {
-                       next(err)
-                   })
-                   let token = jwt.sign({
-                    id: user._id,
-                    email: user.email
-                }, "SuperSecRetKey", {
-                        expiresIn: '365d' // expires in 1 year
-                });
-                helper.RandNumber = 0
-                
-                res.status(200).json({
-                    success: true,
-                    user,
-                    token: token
-                })
-                
-                })
-            } else {
-                return res.json({
-                    success: false
-                })
-            }
-        }
-    }).catch(err => {
-        next(err)
-    })
-}
-*/
 
 exports.userForgotPassword = (req, res, next) => {
     const newPassword = req.body.data.password;

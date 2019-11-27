@@ -5,7 +5,7 @@ exports.CreateAlbum = (req, res, next) => {
     const albumData = {
         title: req.body.title,
         user: req.user.id
-    }
+    };
     Album.findOne({
         title: req.body.title,
         user: req.user._id

@@ -60,6 +60,7 @@ router.delete('/friend', passport.authenticate('jwt', { session: false }), Frien
 // Posts
 router.post('/user/newpost', passport.authenticate('jwt', { session: false }), postImage.single('file'), Post.addPost);
 router.get('/user/:id/posts', passport.authenticate('jwt', { session: false }), Post.getUserPosts);
+router.delete('/user/post/delete/:id', passport.authenticate('jwt', { session: false }), Post.deletePost);
 // router.post('/user/addcomment', passport.authenticate('jwt', { session: false }), Post.addComment)
 
 
@@ -72,4 +73,5 @@ router.get('/user/events/:id', passport.authenticate('jwt', {session: false}), E
 router.post('/user/event/delete', passport.authenticate('jwt', {session: false}), Event.deleteEvent);
 router.post('/user/event/update', passport.authenticate('jwt', {session: false}), Event.updateEvent);
 //passport.authenticate('jwt', {session: false}),
+
 module.exports = router;

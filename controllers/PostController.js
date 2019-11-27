@@ -1,4 +1,6 @@
 const Posts = require('../models/PostModel');
+// const path = require('')
+const fs = require('fs');
 
 exports.addPost = (req, res, next) => {
     const postData = {
@@ -54,6 +56,36 @@ exports.getUserPosts = (req, res, next) => {
         next(err)
     })
 };
+
+
+exports.deletePost = (req, res, next) => {
+    let userd = req.params.id;
+    let postd = req.body.postId;
+    let bool = false;
+    Posts.findOneAndUpdate({ userId: userd }, {
+        $pull: { 'posts': { _id: postd }}
+    }).then(user => {
+        for (let i = 0; i < user.posts.length; i++) {
+            if ((user.posts[i].id === postd) && (user.posts[i].file)) {
+                fs.unlinkSync(`${__basedir}/uploads/posts/${user.posts[i].file.name}`);
+                bool = !bool;
+                break;
+            }
+        }
+        if (!bool) {
+            res.status(400).json({
+                success: false
+            })
+        } else {
+            res.status(200).json({
+                success: true
+            })
+        }
+    }).catch(err => {
+        next(err);
+    });
+};
+
 
 // exports.addComment = (req, res, next) => {
     
