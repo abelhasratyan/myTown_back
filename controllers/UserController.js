@@ -222,10 +222,6 @@ exports.userForgotPassword = (req, res, next) => {
     const userEmail = req.body.data.mail;
     let userModel = {};
 
-    console.log('new password => ', newPassword);
-    console.log('confirm => ', confirmPassword);
-    console.log('email =>>', userEmail);
-
     Users.findOne({ email: userEmail })
     .then(user => {
         if (!user) {

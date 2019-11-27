@@ -1,5 +1,4 @@
 const Posts = require('../models/PostModel');
-// const path = require('')
 const fs = require('fs');
 
 exports.addPost = (req, res, next) => {
