@@ -70,18 +70,19 @@ exports.deleteEvent = (req, res, next) => {
 };
 
 exports.updateEvent = async (req, res, next) => {
-    const currentUserId = req.body.userId;
-    const eventId = req.body.eventId;
+    const currentUserId = req.body.id;
+    console.log('+_+_+_+ log for req =>>', req.body);
+    const eventId = req.body.event_id;
     let eventData = {
-        title: req.body.event.title,
-        tag: req.body.event.tag,
-        description: req.body.event.description,
-        categories: req.body.event.categories,
-        country: req.body.event.country,
-        city: req.body.event.city,
-        place_name: req.body.event.place_name,
-        data_start: req.body.event.data_start,
-        data_end: req.body.event.data_end,
+        title: req.body.title,
+        tag: req.body.tag,
+        description: req.body.description,
+        categories: req.body.categories,
+        country: req.body.country,
+        city: req.body.city,
+        place_name: req.body.place_name,
+        data_start: req.body.data_start,
+        data_end: req.body.data_end,
     };
     Event.findOneAndUpdate({ userId: currentUserId, 'events._id': eventId }, {
         $set: { 'events.$': eventData }
