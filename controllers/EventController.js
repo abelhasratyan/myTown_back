@@ -71,7 +71,6 @@ exports.deleteEvent = (req, res, next) => {
 
 exports.updateEvent = async (req, res, next) => {
     const currentUserId = req.body.id;
-    console.log('+_+_+_+ log for req =>>', req.body);
     const eventId = req.body.event_id;
     let eventData = {
         title: req.body.title,
