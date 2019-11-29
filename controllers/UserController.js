@@ -12,7 +12,7 @@ const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
 
 exports.login = (req, res, next) => {
-    const email = req.body.email.trim();
+    const email = req.body.email;
     let userForRespons = {};
     const userData = {
         email: email,
