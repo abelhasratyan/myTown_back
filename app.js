@@ -9,12 +9,15 @@ require('dotenv').config();
 const passport = require('passport')
 const bodyParser = require("body-parser");
 
+const cors = require('cors')
+
 const indexRouter = require('./routes/index');
 
 
-
-
 const app = express();
+
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,14 +1,15 @@
 const validator = require('validator');
 
 class Validation {
-    userValidation(body, passwordCondition) {
+    userValidation(body) {
+        console.log('+_+_+_+_+ log in validator - >>>', body);
         let validationType = true
-        
+
         const { name, surname, email, password } = body;
         const validName = this.validatorName(name)
         const validSurname = this.validatorSurname(surname)
         const validEmail = this.validatorEmail(email)
-        const validPass = !passwordCondition ? this.validatorPassword(password) : ''
+        const validPass = this.validatorPassword(password)
         if(validName || validEmail || validPass || validSurname){
             validationType = false
         }
@@ -54,7 +55,7 @@ class Validation {
     }
     validatorPassword(password) {
         if(!password) return 'password is required'
-        if(!validator.isLength(password,6)) return 'password is too short'
+        if(!validator.isLength(password, 6)) return 'password is too short'
         return ''
     }
     validatorTitle(title) {

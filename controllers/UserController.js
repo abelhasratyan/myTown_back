@@ -66,31 +66,31 @@ exports.login = (req, res, next) => {
 
 exports.registration = (req, res, next) => {
     let userForResponse = {};
-    const validation = Valid.userValidation(req.body);
+    let data = JSON.parse(Object.keys(req.body)[0]);
+    const validation = Valid.userValidation(data);
     if (!validation.validationType) {
         // next(new Error(validation.messages));
         res.status(400).json({ type: "error", messages: validation.messages });
         return;
     }
     const userData = {
-        name: req.body.name,
-        surname: req.body.surname,
-        email: req.body.email,
-        password: req.body.password,
-        birthday: req.body.birthday,
-        country: req.body.country,
-        city: req.body.city,
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        password: data.password,
+        birthday: data.birthday,
+        country: data.country,
+        city: data.city,
     };
     Users.findOne({
         email: userData.email
     }).then(user => {
         if (user) {
             res.json({
-
                 error: `${user.role} already exist:`
             })
         } else {
-            if (userData.password !== req.body.c_password) {
+            if (userData.password !== data.c_password) {
                 res.json({
                     error: 'Confirm Password don\'t like Password'
                 })
