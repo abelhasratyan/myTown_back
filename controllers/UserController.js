@@ -12,14 +12,14 @@ const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
 
 exports.login = (req, res, next) => {
-    const email = req.body.email;
+    console.log('+_+_+_++ log in login req.body =>', req.body);
     let userForRespons = {};
     const userData = {
-        email: email,
+        email: req.body.email,
         password: req.body.password
     };
     Users.findOne({
-        email: email
+        email: userData.email
     }).then(user => {
         if (user.role === 'ADMIN') {
             res.json({
@@ -66,7 +66,8 @@ exports.login = (req, res, next) => {
 
 exports.registration = (req, res, next) => {
     let userForResponse = {};
-    let data = JSON.parse(Object.keys(req.body)[0]);
+    let data = req.body;
+    // let data = JSON.parse(Object.keys(req.body)[0]);
     const validation = Valid.userValidation(data);
     if (!validation.validationType) {
         // next(new Error(validation.messages));
