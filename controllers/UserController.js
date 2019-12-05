@@ -65,6 +65,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.registration = (req, res, next) => {
+    console.log('+_+_+ req.body =>>', req.body);
     let userForResponse = {};
     let data = req.body;
     // let data = JSON.parse(Object.keys(req.body)[0]);
@@ -81,8 +82,10 @@ exports.registration = (req, res, next) => {
         password: data.password,
         birthday: data.birthday,
         country: data.country,
+        state: data.state,
         city: data.city,
     };
+    console.log('+_+_+_+_++_+_+ log for user Dara- >>>', userData);
     Users.findOne({
         email: userData.email
     }).then(user => {

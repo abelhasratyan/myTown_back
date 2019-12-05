@@ -33,11 +33,15 @@ const userSchema = new Schema({
     },
     country: {
         type: String,
-        // required: true,
+        required: true,
+    },
+    state: {
+        type: String,
+        required: true,
     },
     city: {
         type: String,
-        // required: true,
+        required: true,
     },
     avatar: {
         type: String,

@@ -4,6 +4,7 @@
     <list default="true" id="2cf50df5-f68e-4597-90cf-33f046ea1e30" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/UserController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/UserController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/UserModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/UserModel.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +72,9 @@
       <workItem from="1575008263343" duration="593000" />
       <workItem from="1575024484918" duration="7576000" />
       <workItem from="1575268195575" duration="3610000" />
-      <workItem from="1575275598254" duration="12171000" />
+      <workItem from="1575275598254" duration="25032000" />
+      <workItem from="1575375160169" duration="590000" />
+      <workItem from="1575548062372" duration="675000" />
     </task>
     <servers />
   </component>
