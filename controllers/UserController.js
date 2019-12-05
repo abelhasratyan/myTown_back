@@ -279,6 +279,7 @@ exports.UpdateUserData = (req, res, next) => {
             email: req.body.email,
             birthday: req.body.birthday,
             country: req.body.country,
+            state: req.body.state,
             city: req.body.city,
             // password: req.body.password
         };
@@ -298,6 +299,7 @@ exports.UpdateUserData = (req, res, next) => {
                             email: newUserData.email,
                             birthday: newUserData.birthday,
                             country: newUserData.country,
+                            state: newUserData.state,
                             city: newUserData.city,
                             // password: newUserData.password
                         }
