@@ -12,7 +12,6 @@ const helper = require('../constants/helper');
 const transporter = require('../lib/mailer').transporter;
 
 exports.login = (req, res, next) => {
-    console.log('+_+_+_++ log in login req.body =>', req.body);
     let userForRespons = {};
     const userData = {
         email: req.body.email,
@@ -65,7 +64,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.registration = (req, res, next) => {
-    console.log('+_+_+ req.body =>>', req.body);
     let userForResponse = {};
     let data = req.body;
     // let data = JSON.parse(Object.keys(req.body)[0]);
@@ -85,7 +83,6 @@ exports.registration = (req, res, next) => {
         state: data.state,
         city: data.city,
     };
-    console.log('+_+_+_+_++_+_+ log for user Dara- >>>', userData);
     Users.findOne({
         email: userData.email
     }).then(user => {
@@ -219,7 +216,6 @@ exports.getUser = (req, res, next) => {
     })
 };
 
-
 exports.userForgotPassword = (req, res, next) => {
     const newPassword = req.body.data.password;
     const confirmPassword = req.body.data.c_password;
@@ -266,74 +262,47 @@ exports.userForgotPassword = (req, res, next) => {
 };
 
 exports.UpdateUserData = (req, res, next) => {
-    console.log('+_+_+_+_++++ req.body =>>', req.body);
-    // if (req.body.password != req.body.c_password) {
-    //     console.log('log 2 in updateUserData')
-    //     res.json({
-    //         success: false,
-    //         msg: 'Confirm Password don\'t like Password'
-    //     })
-    // } else {
-        console.log('log 1 in update user');
-        const newUserData = {
-            name: req.body.name,
-            surname: req.body.surname,
-            email: req.body.email,
-            birthday: req.body.birthday,
-            country: req.body.country,
-            state: req.body.state,
-            city: req.body.city,
-            // password: req.body.password
-        };
-        console.log('log 2 in update user');
-        // console.log('NewUserData = >>>>>>', newUserData)
-        // bcrypt.hash(newUserData.password, 10, (err, hash) => {
-        //     if (!hash) {
-        //         console.log('log 4 in updateUserData')
-        //         next(err)
-        //     } else { 
-        //         console.log('log 5 in updateUserData')
-        //         newUserData.password = hash
-        //         console.log('newUserData.password before hashing', newUserData.password)
-        console.log('log 3 in update user');
-                Users.findOneAndUpdate({ _id: req.body.id}, {
-                    $set: {
-                            name: newUserData.name,
-                            surname: newUserData.surname,
-                            email: newUserData.email,
-                            birthday: newUserData.birthday,
-                            country: newUserData.country,
-                            state: newUserData.state,
-                            city: newUserData.city,
-                            // password: newUserData.password
-                        }
-                }, {
-                    new: true
-                }).then(result => {
-                    console.log('log 4 in update user');
-                    if (!result) {
-                        const error = new Error('cant find user');
-                        error.msg = 'cant find user';
-                        error.status = 404;
-                        next(error)
-                    } else {
-                        console.log('log result ===', result);
-                        console.log('log 5 in update user');
-                        return Token.generateToken(result._id, result.email);
-                    }
-                }).then(token => {
-                        console.log('log 6 in update user');
-                        res.json({
-                            success: true,
-                            user: result,
-                            token
-                        })
-                }).catch(err => {
-                    next(err);
-                })
-            // }
-        // })
-    // }
+    let userForResponse = null;
+    const newUserData = {
+        name: req.body.name,
+        surname: req.body.surname,
+        email: req.body.email,
+        birthday: req.body.birthday,
+        country: req.body.country,
+        state: req.body.state,
+        city: req.body.city,
+    };
+    Users.findOneAndUpdate({ _id: req.body.id}, {
+        $set: {
+            name: newUserData.name,
+            surname: newUserData.surname,
+            email: newUserData.email,
+            birthday: newUserData.birthday,
+            country: newUserData.country,
+            state: newUserData.state,
+            city: newUserData.city,
+        }
+    }, {
+        new: true
+    }).then(result => {
+        if (!result) {
+            const error = new Error('cant find user');
+            error.msg = 'cant find user';
+            error.status = 404;
+            next(error)
+        } else {
+            userForResponse = result;
+            return Token.generateToken(result._id, result.email);
+        }
+    }).then(token => {
+        res.json({
+            success: true,
+            user: userForResponse,
+            token
+        });
+    }).catch(err => {
+        next(err);
+    });
 };
 
 exports.updateUserProfilePhoto = (req, res, next) => {
@@ -364,7 +333,6 @@ exports.updateUserProfilePhoto = (req, res, next) => {
             })
         }
     }).catch(err => {
-        console.log('log 9 in user controller');
         next(err)
     })
 };
