@@ -266,6 +266,7 @@ exports.userForgotPassword = (req, res, next) => {
 };
 
 exports.UpdateUserData = (req, res, next) => {
+    console.log('+_+_+_+_++++ req.body =>>', req.body);
     // if (req.body.password != req.body.c_password) {
     //     console.log('log 2 in updateUserData')
     //     res.json({
@@ -273,6 +274,7 @@ exports.UpdateUserData = (req, res, next) => {
     //         msg: 'Confirm Password don\'t like Password'
     //     })
     // } else {
+        console.log('log 1 in update user');
         const newUserData = {
             name: req.body.name,
             surname: req.body.surname,
@@ -283,6 +285,7 @@ exports.UpdateUserData = (req, res, next) => {
             city: req.body.city,
             // password: req.body.password
         };
+        console.log('log 2 in update user');
         // console.log('NewUserData = >>>>>>', newUserData)
         // bcrypt.hash(newUserData.password, 10, (err, hash) => {
         //     if (!hash) {
@@ -292,6 +295,7 @@ exports.UpdateUserData = (req, res, next) => {
         //         console.log('log 5 in updateUserData')
         //         newUserData.password = hash
         //         console.log('newUserData.password before hashing', newUserData.password)
+        console.log('log 3 in update user');
                 Users.findOneAndUpdate({ _id: req.body.id}, {
                     $set: {
                             name: newUserData.name,
@@ -306,24 +310,24 @@ exports.UpdateUserData = (req, res, next) => {
                 }, {
                     new: true
                 }).then(result => {
+                    console.log('log 4 in update user');
                     if (!result) {
                         const error = new Error('cant find user');
                         error.msg = 'cant find user';
                         error.status = 404;
                         next(error)
                     } else {
-                        let token = jwt.sign({
-                            id: result._id,
-                            email: result.email
-                        }, "SuperSecRetKey", {
-                                expiresIn: '365d' // expires in 1 year
-                        });
+                        console.log('log result ===', result);
+                        console.log('log 5 in update user');
+                        return Token.generateToken(result._id, result.email);
+                    }
+                }).then(token => {
+                        console.log('log 6 in update user');
                         res.json({
                             success: true,
                             user: result,
                             token
                         })
-                    }
                 }).catch(err => {
                     next(err);
                 })
