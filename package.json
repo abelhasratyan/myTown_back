@@ -35,6 +35,6 @@
     "socket.io": "^2.2.0",
     "uuid": "^3.3.2",
     "validate.js": "^0.13.1",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   }
 }
